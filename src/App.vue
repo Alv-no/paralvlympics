@@ -8,7 +8,7 @@
           contain
           src="./assets/paralvlympics-logo.png"
           transition="scale-transition"
-          width="120"
+          width="110"
         />
       </div>
 
