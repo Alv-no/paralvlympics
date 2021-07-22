@@ -1,10 +1,10 @@
 <template>
   <div class="myclass">
-    <h1 class="customheader">Dette er poengene:</h1>
+    <h1 class="customheader">Dette er konkurransene:</h1>
     <ul>
-      <li>Lag 1</li>
-      <li>Lag 2</li>
-      <li>Lag 3</li>
+      <li>Konkurranse 1</li>
+      <li>Konkurranse 2</li>
+      <li>Konkurranse 3</li>
     </ul>
   </div>
 </template>
