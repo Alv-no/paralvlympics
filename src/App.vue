@@ -14,8 +14,9 @@
 
       <v-spacer></v-spacer>
       <div class="margin">
-        <v-select :items="items" style="width: 80px" label="Velg år"></v-select>
+        <v-select :items="items" label="Velg år"></v-select>
       </div>
+      <div>Here is the count: {{ count }}</div>
     </v-app-bar>
 
     <v-main>
@@ -32,12 +33,20 @@ export default Vue.extend({
 
   data: () => ({
     items: ["2021", "2020"],
+    count: 0,
   }),
+
+  methods: {},
+
+  mounted() {
+    this.count = this.$store.state.count;
+  },
 });
 </script>
 
 <style scoped>
 .margin {
   margin-top: 25px;
+  width: 100px;
 }
 </style>

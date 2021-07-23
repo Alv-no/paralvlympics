@@ -1,6 +1,6 @@
 <template>
   <div class="myclass">
-    <h1 class="customheader">Dette er poengene:</h1>
+    <h1 class="customheader">Dette er poengene for år {{ year }}:</h1>
     <ul>
       <li>Lag 1</li>
       <li>Lag 2</li>
@@ -8,9 +8,19 @@
     </ul>
   </div>
 </template>
+
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import moment from "moment";
+
+export default Vue.extend({
+  props: {
+    year: {
+      type: Object as () => number,
+      default: moment().year(),
+    },
+  },
+});
 </script>
 
 <style scoped>
