@@ -1,3 +1,4 @@
+import moment from "moment";
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -5,16 +6,16 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    count: 0
+    selectedYear: moment().year()
   },
     mutations: {
-    increment (state) {
-      state.count++
+    updateYear (state, selectedYear: number) {
+      state.selectedYear = selectedYear
     }
   },
     actions: {
-    increment (context) {
-      context.commit('increment');
+    updateYear (context, selectedYear: number) {
+      context.commit('updateYear', selectedYear);
     }
 }})
 

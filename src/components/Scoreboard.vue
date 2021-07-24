@@ -11,13 +11,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import moment from "moment";
 
 export default Vue.extend({
-  props: {
-    year: {
-      type: Object as () => number,
-      default: moment().year(),
+  computed: {
+    year(): number {
+      return this.$store.state.selectedYear;
     },
   },
 });

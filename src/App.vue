@@ -14,9 +14,13 @@
 
       <v-spacer></v-spacer>
       <div class="margin">
-        <v-select :items="items" label="Velg år"></v-select>
+        <v-select
+          :items="items"
+          v-model="selectedYear"
+          label="Velg år"
+          v-on:change="updateYear"
+        ></v-select>
       </div>
-      <div>Here is the count: {{ count }}</div>
     </v-app-bar>
 
     <v-main>
@@ -26,6 +30,7 @@
 </template>
 
 <script lang="ts">
+import moment from "moment";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -34,12 +39,13 @@ export default Vue.extend({
   data: () => ({
     items: ["2021", "2020"],
     count: 0,
+    selectedYear: moment().year(),
   }),
 
-  methods: {},
-
-  mounted() {
-    this.count = this.$store.state.count;
+  methods: {
+    updateYear() {
+      this.$store.dispatch("updateYear", this.selectedYear);
+    },
   },
 });
 </script>

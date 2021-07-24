@@ -1,7 +1,7 @@
 <template>
   <div class="grid-container">
     <div class="grid-item">
-      <Scoreboard :year="2020" class="grid-item" />
+      <Scoreboard class="grid-item" />
     </div>
     <div class="grid-item">
       <Contests class="grid-item" />
