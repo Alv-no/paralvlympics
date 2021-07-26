@@ -1,10 +1,8 @@
 <template>
   <div class="grid-container">
     <div class="grid-item">
-      <Scoreboard class="grid-item" />
-    </div>
-    <div class="grid-item">
-      <Contests class="grid-item" />
+      <b>Poeng for {{ year }}</b>
+      <Scoreboard />
     </div>
   </div>
 </template>
@@ -12,14 +10,18 @@
 <script lang="ts">
 import Vue from "vue";
 import Scoreboard from "../components/Scoreboard.vue";
-import Contests from "../components/Contests.vue";
 
 export default Vue.extend({
   name: "Home",
 
+  computed: {
+    year(): number {
+      return this.$store.state.selectedYear;
+    },
+  },
+
   components: {
     Scoreboard,
-    Contests,
   },
 });
 </script>
@@ -32,7 +34,7 @@ export default Vue.extend({
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
+  padding: 40px;
   font-size: 16px;
   text-align: center;
 }

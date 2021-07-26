@@ -1,5 +1,5 @@
 <template>
-  <v-app class="grid">
+  <v-app>
     <v-app-bar app color="#061838" dark style="height: 90px">
       <div class="d-flex align-center margin">
         <v-img
@@ -7,7 +7,6 @@
           class="shrink mr-2"
           contain
           src="./assets/paralvlympics-logo.png"
-          transition="scale-transition"
           width="110"
         />
       </div>
@@ -15,7 +14,7 @@
       <v-spacer></v-spacer>
       <div class="margin">
         <v-select
-          :items="items"
+          :items="getYears"
           v-model="selectedYear"
           label="Velg år"
           v-on:change="updateYear"
@@ -37,10 +36,23 @@ export default Vue.extend({
   name: "App",
 
   data: () => ({
-    items: ["2021", "2020"],
-    count: 0,
     selectedYear: moment().year(),
   }),
+
+  computed: {
+    getYears(): number[] {
+      const currentYear = moment().year();
+      const startYear = 2020;
+      const difference = currentYear - startYear;
+      const years = [startYear];
+
+      for (let index = 1; index <= difference; index++) {
+        years.push(startYear + index);
+      }
+
+      return years;
+    },
+  },
 
   methods: {
     updateYear() {
@@ -53,6 +65,6 @@ export default Vue.extend({
 <style scoped>
 .margin {
   margin-top: 25px;
-  width: 100px;
+  width: 150px;
 }
 </style>
