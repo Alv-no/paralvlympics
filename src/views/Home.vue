@@ -2,6 +2,7 @@
   <div class="grid-container">
     <div class="grid-item">
       <b>Poeng for {{ year }}</b>
+      <hr class="solid" />
       <Scoreboard />
     </div>
   </div>
@@ -31,11 +32,17 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: auto auto auto;
   padding: 10px;
+  justify-content: center;
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 40px;
-  font-size: 16px;
+  font-size: 26px;
   text-align: center;
+}
+/* Solid border */
+hr.solid {
+  border-top: 3px solid rgb(10, 10, 10);
+  margin-bottom: 15px;
 }
 </style>
