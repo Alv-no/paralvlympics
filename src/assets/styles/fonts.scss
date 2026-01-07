@@ -25,13 +25,14 @@
 }
 
 @mixin title-base {
+  font-family: 'Formula1';
+
   line-height: 1.15;
   letter-spacing: -0.022em;
 }
 
 .title-xl {
   @include title-base;
-  font-family: 'Formula1';
   font-weight: 600;
   font-size: 2.5rem;
   @include sm {
@@ -41,7 +42,6 @@
 
 .title-lg {
   @include title-base;
-  font-family: 'Formula1';
   font-weight: 600;
   font-size: 1.75rem;
   @include sm {
@@ -51,7 +51,6 @@
 
 .title-md {
   @include title-base;
-  font-family: 'Formula1';
   font-weight: 600;
   font-size: 1.25rem;
   @include sm {
@@ -61,7 +60,6 @@
 
 .title-sm {
   @include title-base;
-  font-family: 'Formula1';
   font-weight: 600;
   font-size: 0.75rem;
   @include sm {
@@ -71,7 +69,6 @@
 
 .title-xs {
   @include title-base;
-  font-family: 'Formula1';
   font-weight: 600;
   font-size: 0.75rem;
   @include sm {

@@ -17,23 +17,29 @@ export type Database = {
       competitions: {
         Row: {
           date: string
-          description: string
-          finished: boolean
+          description: string | null
           id: number
+          image_url: string
+          is_finished: boolean
+          is_next: boolean
           name: string
         }
         Insert: {
           date: string
-          description: string
-          finished?: boolean
+          description?: string | null
           id?: number
+          image_url: string
+          is_finished?: boolean
+          is_next?: boolean
           name: string
         }
         Update: {
           date?: string
-          description?: string
-          finished?: boolean
+          description?: string | null
           id?: number
+          image_url?: string
+          is_finished?: boolean
+          is_next?: boolean
           name?: string
         }
         Relationships: []

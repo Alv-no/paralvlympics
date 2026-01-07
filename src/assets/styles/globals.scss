@@ -2,6 +2,7 @@ $black-color: #212121;
 $white-color: #FFFFFF;
 $red-color-100:#F37272;
 $red-color-200:#D01D1D;
+$red-color-300:#D01F1F;
 
 * {
   box-sizing: border-box;
@@ -13,7 +14,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 html {
-  font-family: 'Formula1', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 16px;
   scrollbar-gutter: stable;
@@ -21,9 +22,9 @@ html {
 
 body {
   color: $black-color;
-  font-family: 'Formula1', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
   width: 100%;
 }

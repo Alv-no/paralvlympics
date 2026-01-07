@@ -35,6 +35,9 @@ nav {
   margin-left: 48px;
   display: flex;
   gap: 20px;
+  @include md {
+    margin-left: 96px;
+  }
 }
 
 nav a {

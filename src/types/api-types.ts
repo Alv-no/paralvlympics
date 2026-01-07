@@ -19,7 +19,9 @@ export interface Competition {
   name: string
   description: string | null
   date: string
+  isNext: boolean
   isFinished: boolean
+  imageUrl: string | null
   contestantsResults: ContestantResult[]
   teamResults: TeamResult[]
 }

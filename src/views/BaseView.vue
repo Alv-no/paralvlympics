@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Schedule from '@/components/Schedule.vue'
+</script>
 
 <template>
   <div>
-    <h1>BaseView</h1>
+    <Schedule />
   </div>
 </template>
 

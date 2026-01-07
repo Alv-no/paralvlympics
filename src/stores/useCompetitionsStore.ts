@@ -145,7 +145,9 @@ export const useCompetitionsStore = defineStore('competitions', () => {
         name: comp.name,
         description: comp.description,
         date: comp.date,
-        isFinished: comp.finished,
+        isNext: comp.is_next,
+        isFinished: comp.is_finished,
+        imageUrl: comp.image_url,
         contestantsResults: contestantResults,
         teamResults,
       }
