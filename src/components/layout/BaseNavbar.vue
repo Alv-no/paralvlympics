@@ -1,18 +1,64 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import logo from '@/assets/images/logo-small.svg'
+
+const isVisible = ref(false)
+const activeSection = ref<string>('')
+
+const sections = ['schedule', 'results', 'rules', 'contestants']
+
+const handleScroll = () => {
+  const currentScrollY = window.scrollY
+
+  // Show navbar if scrolled down from top, hide if at top
+  if (currentScrollY > 0) {
+    isVisible.value = true
+  } else {
+    isVisible.value = false
+    activeSection.value = ''
+    return
+  }
+
+  // Find which section is currently in view
+  const navHeight = 64
+  const offset = navHeight + 100 // Add some offset
+
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const sectionId = sections[i]
+    if (!sectionId) continue
+
+    const section = document.getElementById(sectionId)
+    if (section) {
+      const rect = section.getBoundingClientRect()
+      if (rect.top <= offset) {
+        activeSection.value = sectionId
+        return
+      }
+    }
+  }
+
+  activeSection.value = ''
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll() // Check initial state
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
-  <nav>
+  <nav :class="{ visible: isVisible }">
     <img :src="logo" alt="Logo" class="logo" />
     <div class="link-container">
-
-    <RouterLink to="#competitions">Program</RouterLink>
-    <RouterLink to="#results">Resultattavle</RouterLink>
-    <RouterLink to="#rules">Regler</RouterLink>
-    <RouterLink to="#contestants">Førere</RouterLink>
-  </div>
-
+      <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a>
+      <a href="#results" :class="{ active: activeSection === 'results' }">Resultattavle</a>
+      <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a>
+      <a href="#contestants" :class="{ active: activeSection === 'contestants' }">Førere</a>
+    </div>
   </nav>
 </template>
 
@@ -20,6 +66,9 @@ import logo from '@/assets/images/logo-small.svg'
 img {
   height: 20px;
   width: auto;
+  position: relative;
+  left: 20px;
+
 }
 
 nav {
@@ -27,26 +76,52 @@ nav {
   color: $white-color;
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 0px;
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 64px;
+  top: 0;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+
+  &.visible {
+    transform: translateY(0);
+  }
 }
 
 .link-container {
   @extend .title-xs;
-  margin-left: 48px;
-  display: flex;
-  gap: 20px;
+  max-width: 1164px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: none;
   @include md {
-    margin-left: 96px;
+    display: flex ;
+    gap: 48px;
   }
+
 }
 
 nav a {
   color: $white-color;
   text-decoration: none;
-  padding: 10px 20px;
   border-radius: 5px;
+  position: relative;
   &:hover {
     color: $red-color-100;
+  }
+  &.active {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: $white-color;
+    }
   }
 }
 </style>

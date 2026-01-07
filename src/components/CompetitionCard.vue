@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div v-html="md.render(competition.description || '')" />
+    <div class="description" v-html="md.render(competition.description || '')" />
     <p class="date">{{ competition.date }}</p>
   </div>
   </div>
@@ -93,6 +93,10 @@
 
     :deep(ul) {
       padding-left: 20px;
+    }
+
+    .description {
+      max-width: 250px;
     }
 
   }
