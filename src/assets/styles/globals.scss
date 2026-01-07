@@ -1,0 +1,29 @@
+$black-color: #212121;
+$white-color: #FFFFFF;
+$red-color-100:#F37272;
+$red-color-200:#D01D1D;
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Formula1', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  scrollbar-gutter: stable;
+}
+
+body {
+  color: $black-color;
+  font-family: 'Formula1', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 0;
+  width: 100%;
+}

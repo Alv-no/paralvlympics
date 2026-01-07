@@ -1,0 +1,137 @@
+@use '@/assets/styles/_breakpoints.scss' as *;
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/formula1-regular-1.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/formula1-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/formula1-black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@mixin title-base {
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+}
+
+.title-xl {
+  @include title-base;
+  font-family: 'Formula1';
+  font-weight: 600;
+  font-size: 2.5rem;
+  @include sm {
+    font-size: 3rem;
+  }
+}
+
+.title-lg {
+  @include title-base;
+  font-family: 'Formula1';
+  font-weight: 600;
+  font-size: 1.75rem;
+  @include sm {
+    font-size: 2rem;
+  }
+}
+
+.title-md {
+  @include title-base;
+  font-family: 'Formula1';
+  font-weight: 600;
+  font-size: 1.25rem;
+  @include sm {
+    font-size: 1.5rem;
+  }
+}
+
+.title-sm {
+  @include title-base;
+  font-family: 'Formula1';
+  font-weight: 600;
+  font-size: 0.75rem;
+  @include sm {
+    font-size: 1rem;
+  }
+}
+
+.title-xs {
+  @include title-base;
+  font-family: 'Formula1';
+  font-weight: 600;
+  font-size: 0.75rem;
+  @include sm {
+    font-size: 0.887rem;
+  }
+}
+
+.label-md {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.label-sm {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 0.888rem;
+}
+
+.label-xs {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 0.777rem;
+}
+
+.body-md {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.body-sm {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 0.888rem;
+}
+
+.body-xs {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 0.777rem;
+}
+// default styles for heading elements
+h1 {
+  @extend .title-lg;
+}
+
+h2 {
+  @extend .title-md;
+}
+
+h3 {
+  @extend .title-sm;
+}
+
+h4 {
+  @extend .title-xs;
+}
+
+.italic {
+  font-style: italic;
+}
+
