@@ -3,6 +3,5 @@
   "semi": false,
   "singleQuote": true,
   "printWidth": 100,
-  "plugins": ["prettier-plugin-vue"],
-  "vueIndentScriptAndStyle": false
+  "plugins": ["prettier-plugin-vue"]
 }

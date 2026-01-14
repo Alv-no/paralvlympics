@@ -38,7 +38,7 @@
         {{ label }}
       </label>
       <div :class="['input-wrapper']">
-        <olt-icon v-if="leftIcon" id="left-icon" :path="leftIcon" />
+        <vue-feather v-if="leftIcon" id="left-icon" :type="leftIcon" />
         <select
           ref="inputElement"
           :value="modelValue"

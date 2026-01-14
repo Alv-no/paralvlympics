@@ -2,6 +2,7 @@
 import Schedule from '@/components/Schedule.vue'
 import Hero from '@/components/Hero.vue'
 import Standings from '@/components/Standings.vue'
+import Rules from '@/components/Rules.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import Standings from '@/components/Standings.vue'
     <Hero />
     <Schedule />
     <Standings />
+    <Rules />
   </div>
 </template>
 
