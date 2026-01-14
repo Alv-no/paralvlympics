@@ -92,6 +92,7 @@
 
 
     :deep(ul) {
+      margin: 0;
       padding-left: 20px;
     }
 

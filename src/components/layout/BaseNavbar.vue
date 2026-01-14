@@ -55,7 +55,7 @@ onUnmounted(() => {
     <img :src="logo" alt="Logo" class="logo" />
     <div class="link-container">
       <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a>
-      <a href="#results" :class="{ active: activeSection === 'results' }">Resultattavle</a>
+      <a href="#standings" :class="{ active: activeSection === 'standings' }">Resultattavle</a>
       <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a>
       <a href="#contestants" :class="{ active: activeSection === 'contestants' }">Førere</a>
     </div>

@@ -3,6 +3,7 @@ export interface Team {
   name: string
   description: string | null
   color: string
+  totalPoints: number
 }
 
 export interface Contestant {
@@ -12,6 +13,9 @@ export interface Contestant {
   careerWins: number
   seasonsCompeted: number
   team: Team
+  totalPoints: number
+  totalPodiums: number
+  totalFirstPlaces: number
 }
 
 export interface Competition {

@@ -42,7 +42,7 @@ import logo from '@/assets/images/logo-small.svg'
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('@/assets/images/dot-mesh.svg');
+    background-image: url('@/assets/images/dot-mesh.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -50,20 +50,30 @@ import logo from '@/assets/images/logo-small.svg'
 
 .hero-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
   color: $white-color;
   z-index: 2;
+  @include md {
+    flex-direction: row;
+  }
 
 
   > h1 {
-    font-size: 64px;
+    font-size: 32px;
+    @include md {
+      font-size: 64px;
+    }
 
   }
 }
 
 .logo {
-  height: 64px;
+  height: 72px;
   width: auto;
+  @include md {
+    height: 64px;
+  }
 }
 </style>

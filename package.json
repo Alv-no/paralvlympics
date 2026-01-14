@@ -17,11 +17,13 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
+    "feather-icons": "^4.29.2",
     "markdown-it": "^14.1.0",
     "pinia": "^3.0.4",
     "sass": "^1.97.1",
     "supabase": "link:@/types/supabase",
     "vue": "^3.5.26",
+    "vue-feather": "^2.0.0",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
@@ -36,7 +38,7 @@
     "eslint-plugin-vue": "~10.6.2",
     "jiti": "^2.6.1",
     "npm-run-all2": "^8.0.4",
-    "prettier": "3.7.4",
+    "prettier": "3.6.2",
     "prettier-plugin-vue": "^1.1.6",
     "typescript": "~5.9.3",
     "vite": "^7.3.0",
