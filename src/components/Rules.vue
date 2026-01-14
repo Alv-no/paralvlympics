@@ -227,11 +227,16 @@ h3 {
   background-color: $black-color;
   color: $white-color;
   padding: 32px;
-  width: calc(100vw - 96px - 96px);
-  height: calc(100vh - 48px - 48px);
+  width: calc(100vw - 16px);
+  height: calc(100vh - 32px);
   max-width: 1000px;
   display: flex;
   flex-direction: column;
+
+  @include md {
+    width: calc(100vw - 96px - 96px);
+    height: calc(100vh - 48px - 48px);
+  }
 }
 
 .rules-overlay-title {
@@ -251,13 +256,22 @@ h3 {
 
 .points-list {
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+  gap: 0px;
+
+  @include md {
+    flex-direction: row;
+    gap: 24px;
+
+  }
 }
 
 .contact-list {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
+
 }
 
 .stripes {

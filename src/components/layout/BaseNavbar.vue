@@ -5,7 +5,7 @@ import logo from '@/assets/images/logo-small.svg'
 const isVisible = ref(false)
 const activeSection = ref<string>('')
 
-const sections = ['schedule', 'results', 'rules', 'contestants']
+const sections = ['schedule', 'standings', 'rules', 'contestants']
 
 const handleScroll = () => {
   const currentScrollY = window.scrollY
@@ -51,15 +51,23 @@ onUnmounted(() => {
 </script>
 
 <template>
+
   <nav :class="{ visible: isVisible }">
-    <img :src="logo" alt="Logo" class="logo" />
+     <img :src="logo" alt="Logo" class="logo" />
     <div class="link-container">
-      <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a>
-      <a href="#standings" :class="{ active: activeSection === 'standings' }">Resultattavle</a>
-      <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a>
-      <a href="#contestants" :class="{ active: activeSection === 'contestants' }">Førere</a>
+       <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a> <a
+        href="#standings"
+        :class="{ active: activeSection === 'standings' }"
+        >Resultattavle</a
+      > <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a> <a
+        href="#contestants"
+        :class="{ active: activeSection === 'contestants' }"
+        >Førere</a
+      >
     </div>
+
   </nav>
+
 </template>
 
 <style scoped lang="scss">
@@ -125,3 +133,4 @@ nav a {
   }
 }
 </style>
+

@@ -3,18 +3,22 @@ import BaseNavbar from '@/components/layout/BaseNavbar.vue'
 </script>
 
 <template>
-    <div class="portal">
+
+  <div class="portal">
+
     <div id="portal-elements" class="portal-elements">
+
       <div id="toast-container" />
+
     </div>
-  </div>
-  <div>
-    <BaseNavbar />
-    <main class="content">
-      <router-view :key="$route.fullPath" />
-    </main>
+
   </div>
 
+  <div>
+     <BaseNavbar />
+    <main class="content"> <router-view :key="$route.fullPath" /> </main>
+
+  </div>
 
 </template>
 
@@ -25,7 +29,7 @@ import BaseNavbar from '@/components/layout/BaseNavbar.vue'
   margin: 0 auto;
 
   @include md {
-    padding: 0 64px 96px 64px;
+    padding: 0 64px 128px 64px;
 
   }
 }
@@ -46,3 +50,4 @@ import BaseNavbar from '@/components/layout/BaseNavbar.vue'
   pointer-events: auto;
 }
 </style>
+
