@@ -89,31 +89,33 @@ export const useContestantsStore = defineStore('contestants', () => {
       contestantStats.set(contestantId, current)
     })
 
-    // Transform to Contestant type
-    contestants.value = data.map((contestant: ContestantRow) => {
-      const stats = contestantStats.get(contestant.id) || {
-        totalPoints: 0,
-        totalPodiums: 0,
-        totalFirstPlaces: 0,
-      }
+    // Transform to Contestant type and sort by total points (descending)
+    contestants.value = data
+      .map((contestant: ContestantRow) => {
+        const stats = contestantStats.get(contestant.id) || {
+          totalPoints: 0,
+          totalPodiums: 0,
+          totalFirstPlaces: 0,
+        }
 
-      return {
-        id: contestant.id,
-        firstName: contestant.first_name,
-        lastName: contestant.last_name,
-        careerWins: contestant.career_wins,
-        seasonsCompeted: contestant.seasons_competed,
-        team: {
-          id: contestant.teams.id,
-          name: contestant.teams.name,
-          description: contestant.teams.description,
-          color: contestant.teams.color,
-        },
-        totalPoints: stats.totalPoints,
-        totalPodiums: stats.totalPodiums,
-        totalFirstPlaces: stats.totalFirstPlaces,
-      }
-    })
+        return {
+          id: contestant.id,
+          firstName: contestant.first_name,
+          lastName: contestant.last_name,
+          careerWins: contestant.career_wins,
+          seasonsCompeted: contestant.seasons_competed,
+          team: {
+            id: contestant.teams.id,
+            name: contestant.teams.name,
+            description: contestant.teams.description,
+            color: contestant.teams.color,
+          },
+          totalPoints: stats.totalPoints,
+          totalPodiums: stats.totalPodiums,
+          totalFirstPlaces: stats.totalFirstPlaces,
+        }
+      })
+      .sort((a, b) => b.totalPoints - a.totalPoints)
 
     lastFetched.value = now
   }

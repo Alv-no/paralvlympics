@@ -100,58 +100,61 @@ export const useCompetitionsStore = defineStore('competitions', () => {
     // Create contestants lookup map
     const contestantsMap = new Map(contestantsData.map(c => [c.id, c]))
 
-    // Transform to Competition type
-    competitions.value = competitionsData.map((comp: CompetitionWithResults) => {
-      const contestantResults = (comp.contestant_results || []).map((cr: ContestantResultRow) => {
-        const contestant = contestantsMap.get(cr.contestant_id)!
-        const team = contestant.teams || teamsMap.get(contestant.team_id)!
-        return {
-          id: cr.id.toString(),
-          placement: cr.placement,
-          prize: cr.prize,
-          contestant: {
-            id: contestant.id,
-            firstName: contestant.first_name,
-            lastName: contestant.last_name,
-            careerWins: contestant.career_wins,
-            seasonsCompeted: contestant.seasons_competed,
+    // Transform to Competition type and sort by id
+    competitions.value = competitionsData
+      .slice()
+      .sort((a, b) => a.id - b.id)
+      .map((comp: CompetitionWithResults) => {
+        const contestantResults = (comp.contestant_results || []).map((cr: ContestantResultRow) => {
+          const contestant = contestantsMap.get(cr.contestant_id)!
+          const team = contestant.teams || teamsMap.get(contestant.team_id)!
+          return {
+            id: cr.id.toString(),
+            placement: cr.placement,
+            prize: cr.prize,
+            contestant: {
+              id: contestant.id,
+              firstName: contestant.first_name,
+              lastName: contestant.last_name,
+              careerWins: contestant.career_wins,
+              seasonsCompeted: contestant.seasons_competed,
+              team: {
+                id: team.id,
+                name: team.name,
+                description: team.description,
+                color: team.color,
+              },
+            },
+          }
+        })
+
+        const teamResults = (comp.team_results || []).map((tr: TeamResultRow) => {
+          const team = teamsMap.get(tr.team_id)!
+          return {
+            id: tr.id.toString(),
+            placement: tr.placement,
+            prize: tr.prize,
             team: {
               id: team.id,
               name: team.name,
               description: team.description,
               color: team.color,
             },
-          },
-        }
-      })
+          }
+        })
 
-      const teamResults = (comp.team_results || []).map((tr: TeamResultRow) => {
-        const team = teamsMap.get(tr.team_id)!
         return {
-          id: tr.id.toString(),
-          placement: tr.placement,
-          prize: tr.prize,
-          team: {
-            id: team.id,
-            name: team.name,
-            description: team.description,
-            color: team.color,
-          },
+          id: comp.id,
+          name: comp.name,
+          description: comp.description,
+          date: comp.date,
+          isNext: comp.is_next,
+          isFinished: comp.is_finished,
+          imageUrl: comp.image_url,
+          contestantsResults: contestantResults,
+          teamResults,
         }
       })
-
-      return {
-        id: comp.id,
-        name: comp.name,
-        description: comp.description,
-        date: comp.date,
-        isNext: comp.is_next,
-        isFinished: comp.is_finished,
-        imageUrl: comp.image_url,
-        contestantsResults: contestantResults,
-        teamResults,
-      }
-    })
 
     lastFetched.value = now
   }

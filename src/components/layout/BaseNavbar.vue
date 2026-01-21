@@ -53,6 +53,9 @@ onUnmounted(() => {
 <template>
 
   <nav :class="{ visible: isVisible }">
+    <div class="nav-container">
+
+
      <img :src="logo" alt="Logo" class="logo" />
     <div class="link-container">
        <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a> <a
@@ -65,12 +68,28 @@ onUnmounted(() => {
         >Førere</a
       >
     </div>
+  </div>
 
   </nav>
 
 </template>
 
 <style scoped lang="scss">
+.nav-container {
+  max-width: 1164px;
+  margin: 0 auto;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 0px;
+  height: 64px;
+  @include md {
+    padding: 0 64px;
+
+  }
+}
+
 img {
   height: 20px;
   width: auto;
@@ -82,13 +101,9 @@ img {
 nav {
   background-color: $black-color;
   color: $white-color;
-  display: flex;
-  align-items: center;
-  padding: 10px 0px;
   position: fixed;
   z-index: 10;
   width: 100%;
-  height: 64px;
   top: 0;
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
