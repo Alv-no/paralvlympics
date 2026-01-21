@@ -109,6 +109,7 @@ export const useContestantsStore = defineStore('contestants', () => {
             name: contestant.teams.name,
             description: contestant.teams.description,
             color: contestant.teams.color,
+            totalPoints: 0,
           },
           totalPoints: stats.totalPoints,
           totalPodiums: stats.totalPodiums,

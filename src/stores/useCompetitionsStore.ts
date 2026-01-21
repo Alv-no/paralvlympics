@@ -123,7 +123,11 @@ export const useCompetitionsStore = defineStore('competitions', () => {
                 name: team.name,
                 description: team.description,
                 color: team.color,
+                totalPoints: 0,
               },
+              totalPoints: 0,
+              totalPodiums: 0,
+              totalFirstPlaces: 0,
             },
           }
         })
@@ -139,6 +143,7 @@ export const useCompetitionsStore = defineStore('competitions', () => {
               name: team.name,
               description: team.description,
               color: team.color,
+              totalPoints: 0,
             },
           }
         })
