@@ -92,6 +92,7 @@ export type Database = {
           created_at: string
           first_name: string
           id: number
+          image_url: string
           last_name: string
           seasons_competed: number
           team_id: number
@@ -101,6 +102,7 @@ export type Database = {
           created_at?: string
           first_name: string
           id?: number
+          image_url: string
           last_name: string
           seasons_competed: number
           team_id: number
@@ -110,6 +112,7 @@ export type Database = {
           created_at?: string
           first_name?: string
           id?: number
+          image_url?: string
           last_name?: string
           seasons_competed?: number
           team_id?: number

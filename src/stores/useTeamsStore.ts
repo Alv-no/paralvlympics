@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Team } from '@/types/api-types'
+import { useResultsStore } from './useResultsStore'
 
 const FIVE_MINUTES = 5 * 60 * 1000
 
@@ -12,11 +13,6 @@ interface TeamRow {
   color: string
 }
 
-interface TeamResultRow {
-  team_id: number
-  prize: number
-}
-
 export const useTeamsStore = defineStore('teams', () => {
   const teams = ref<Team[]>([])
   const lastFetched = ref<number | null>(null)
@@ -25,6 +21,12 @@ export const useTeamsStore = defineStore('teams', () => {
     const now = Date.now()
     if (lastFetched.value && now - lastFetched.value < FIVE_MINUTES) {
       return
+    }
+
+    // Reuse results from useResultsStore
+    const resultsStore = useResultsStore()
+    if (resultsStore.teamStats.size === 0) {
+      await resultsStore.fetchResults()
     }
 
     const { data, error } = await supabase.from('teams').select(`
@@ -39,33 +41,9 @@ export const useTeamsStore = defineStore('teams', () => {
       return
     }
 
-    // Fetch all team results to calculate aggregated values
-    const { data: resultsData, error: resultsError } = await supabase
-      .from('team_results')
-      .select('team_id, prize')
-
-    if (resultsError) {
-      console.error('Error fetching team results:', resultsError)
-      return
-    }
-
-    // Calculate aggregated values per team
-    const teamStats = new Map<number, { totalPoints: number }>()
-
-    ;(resultsData || []).forEach((result: TeamResultRow) => {
-      const teamId = result.team_id
-      const current = teamStats.get(teamId) || {
-        totalPoints: 0,
-      }
-
-      current.totalPoints += result.prize || 0
-
-      teamStats.set(teamId, current)
-    })
-
-    // Transform to Team type
+    // Transform to Team type using stats from results store
     teams.value = data.map((team: TeamRow) => {
-      const stats = teamStats.get(team.id) || {
+      const stats = resultsStore.teamStats.get(team.id) || {
         totalPoints: 0,
       }
 

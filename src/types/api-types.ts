@@ -12,6 +12,7 @@ export interface Contestant {
   lastName: string
   careerWins: number
   seasonsCompeted: number
+  imageUrl: string
   team: Team
   totalPoints: number
   totalPodiums: number

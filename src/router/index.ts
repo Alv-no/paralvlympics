@@ -1,6 +1,7 @@
 import { useCompetitionsStore } from '@/stores/useCompetitionsStore'
 import { useContestantsStore } from '@/stores/useContestantsStore'
 import { useTeamsStore } from '@/stores/useTeamsStore'
+import { useResultsStore } from '@/stores/useResultsStore'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const baseRouteName = 'base'
@@ -26,6 +27,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async () => {
+  // Fetch results first as they are needed by all other stores
+  const { fetchResults } = useResultsStore()
+  await fetchResults()
+
   const { fetchTeams } = useTeamsStore()
   await fetchTeams()
 

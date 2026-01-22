@@ -152,13 +152,25 @@ const closeOverlay = () => {
 
         <div class="contact-list">
 
-          <p> Vikki Lauda </p>
+          <div class="contact-item">
+            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Julie.png" alt="Vikki Lauda" />
+            <p>Vikki Lauda</p>
+          </div>
 
-          <p>Jakob Villeneuve</p>
+          <div class="contact-item">
+            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Jakob.png" alt="Jakob Villeneuve" />
+            <p>Jakob Villeneuve</p>
+          </div>
 
-          <p>John Manuel Fangio</p>
+          <div class="contact-item">
+            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/John.png" alt="John Manuel Fangio" />
+            <p>John Manuel Fangio</p>
+          </div>
 
-          <p>Stian Vettel</p>
+          <div class="contact-item">
+            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Stian.png" alt="Stian Vettel" />
+            <p>Stian Vettel</p>
+          </div>
 
         </div>
 
@@ -271,7 +283,24 @@ h3 {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+}
 
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    max-height: 120px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 0;
+  }
 }
 
 .stripes {

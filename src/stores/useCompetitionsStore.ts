@@ -3,23 +3,15 @@ import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Competition } from '@/types/api-types'
 import type { Tables } from '@/types/database.types'
+import { useTeamsStore } from './useTeamsStore'
+import { useContestantsStore } from './useContestantsStore'
+import { useResultsStore } from './useResultsStore'
 
 const FIVE_MINUTES = 5 * 60 * 1000
 
 type CompetitionRow = Tables<'competitions'>
 type ContestantResultRow = Tables<'contestant_results'>
 type TeamResultRow = Tables<'team_results'>
-type ContestantRow = Tables<'contestants'>
-type TeamRow = Tables<'teams'>
-
-type CompetitionWithResults = CompetitionRow & {
-  contestant_results?: ContestantResultRow[]
-  team_results?: TeamResultRow[]
-}
-
-type ContestantWithTeam = ContestantRow & {
-  teams?: TeamRow
-}
 
 export const useCompetitionsStore = defineStore('competitions', () => {
   const competitions = ref<Competition[]>([])
@@ -31,109 +23,76 @@ export const useCompetitionsStore = defineStore('competitions', () => {
       return
     }
 
-    // Fetch competitions with nested contestant_results and team_results
+    // Reuse teams from useTeamsStore
+    const teamsStore = useTeamsStore()
+    if (teamsStore.teams.length === 0) {
+      await teamsStore.fetchTeams()
+    }
+    const teamsMap = new Map(teamsStore.teams.map(team => [team.id, team]))
+
+    // Reuse contestants from useContestantsStore
+    const contestantsStore = useContestantsStore()
+    if (contestantsStore.contestants.length === 0) {
+      await contestantsStore.fetchContestants()
+    }
+    const contestantsMap = new Map(contestantsStore.contestants.map(c => [c.id, c]))
+
+    // Reuse results from useResultsStore
+    const resultsStore = useResultsStore()
+    if (resultsStore.contestantResults.length === 0 || resultsStore.teamResults.length === 0) {
+      await resultsStore.fetchResults()
+    }
+
+    // Fetch competitions only (results are already fetched)
     const { data: competitionsData, error: competitionsError } = await supabase
       .from('competitions')
-      .select(`
-        *,
-        contestant_results(*),
-        team_results(*)
-      `)
+      .select('*')
 
     if (competitionsError || !competitionsData) {
       console.error('Error fetching competitions:', competitionsError)
       return
     }
 
-    // Collect all unique contestant IDs and team IDs from team_results
-    const contestantIds = new Set<number>()
-    const teamResultTeamIds = new Set<number>()
-
-    competitionsData.forEach((comp: CompetitionWithResults) => {
-      comp.contestant_results?.forEach((cr: ContestantResultRow) => {
-        contestantIds.add(cr.contestant_id)
-      })
-      comp.team_results?.forEach((tr: TeamResultRow) => {
-        teamResultTeamIds.add(tr.team_id)
-      })
-    })
-
-    // Fetch contestants with nested teams
-    const contestantsResult = await supabase
-      .from('contestants')
-      .select('*, teams(*)')
-      .in('id', Array.from(contestantIds))
-
-    const contestantsData = (contestantsResult.data || []) as ContestantWithTeam[]
-
-    // Collect team IDs from contestants and determine which teams we still need
-    const contestantTeamIds = new Set<number>()
-    contestantsData.forEach((c: ContestantWithTeam) => {
-      if (c.team_id) contestantTeamIds.add(c.team_id)
-    })
-
-    // Get teams needed for team_results that aren't already fetched via contestants
-    const remainingTeamIds = Array.from(teamResultTeamIds).filter(id => !contestantTeamIds.has(id))
-
-    // Fetch remaining teams (if any) and combine with teams from contestants
-    const teamsMap = new Map<number, TeamRow>()
-
-    // Add teams from contestants
-    contestantsData.forEach((c: ContestantWithTeam) => {
-      if (c.teams) {
-        teamsMap.set(c.teams.id, c.teams)
-      }
-    })
-
-    // Fetch remaining teams for team_results if needed
-    if (remainingTeamIds.length > 0) {
-      const teamsResult = await supabase
-        .from('teams')
-        .select('*')
-        .in('id', remainingTeamIds)
-
-      ;(teamsResult.data || []).forEach((t: TeamRow) => {
-        teamsMap.set(t.id, t)
-      })
-    }
-
-    // Create contestants lookup map
-    const contestantsMap = new Map(contestantsData.map(c => [c.id, c]))
-
     // Transform to Competition type and sort by id
     competitions.value = competitionsData
       .slice()
       .sort((a, b) => a.id - b.id)
-      .map((comp: CompetitionWithResults) => {
-        const contestantResults = (comp.contestant_results || []).map((cr: ContestantResultRow) => {
-          const contestant = contestantsMap.get(cr.contestant_id)!
-          const team = contestant.teams || teamsMap.get(contestant.team_id)!
+      .map((comp: CompetitionRow) => {
+        // Get results for this competition from results store
+        const compContestantResults = resultsStore.getContestantResultsByCompetition(comp.id)
+        const compTeamResults = resultsStore.getTeamResultsByCompetition(comp.id)
+
+        const contestantResults = compContestantResults.map((cr: ContestantResultRow) => {
+          const contestant = contestantsMap.get(cr.contestant_id)
+          if (!contestant) {
+            console.warn(`Contestant not found for contestant_result ${cr.id} with contestant_id ${cr.contestant_id}`)
+            return null
+          }
           return {
             id: cr.id.toString(),
             placement: cr.placement,
             prize: cr.prize,
             contestant: {
               id: contestant.id,
-              firstName: contestant.first_name,
-              lastName: contestant.last_name,
-              careerWins: contestant.career_wins,
-              seasonsCompeted: contestant.seasons_competed,
-              team: {
-                id: team.id,
-                name: team.name,
-                description: team.description,
-                color: team.color,
-                totalPoints: 0,
-              },
-              totalPoints: 0,
-              totalPodiums: 0,
-              totalFirstPlaces: 0,
+              firstName: contestant.firstName,
+              lastName: contestant.lastName,
+              careerWins: contestant.careerWins,
+              seasonsCompeted: contestant.seasonsCompeted,
+              imageUrl: contestant.imageUrl,
+              team: contestant.team,
+              totalPoints: contestant.totalPoints,
+              totalPodiums: contestant.totalPodiums,
+              totalFirstPlaces: contestant.totalFirstPlaces,
             },
           }
-        })
+        }).filter((result): result is NonNullable<typeof result> => result !== null)
 
-        const teamResults = (comp.team_results || []).map((tr: TeamResultRow) => {
-          const team = teamsMap.get(tr.team_id)!
+        const teamResults = compTeamResults.map((tr: TeamResultRow) => {
+          const team = teamsMap.get(tr.team_id)
+          if (!team) {
+            console.warn(`Team not found for team_result ${tr.id} with team_id ${tr.team_id}`)
+            return null
+          }
           return {
             id: tr.id.toString(),
             placement: tr.placement,
@@ -143,10 +102,10 @@ export const useCompetitionsStore = defineStore('competitions', () => {
               name: team.name,
               description: team.description,
               color: team.color,
-              totalPoints: 0,
+              totalPoints: team.totalPoints,
             },
           }
-        })
+        }).filter((result): result is NonNullable<typeof result> => result !== null)
 
         return {
           id: comp.id,
