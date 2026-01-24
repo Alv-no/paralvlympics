@@ -16,8 +16,8 @@
 </script>
 
 <template>
-  <div :class="{ 'competition-card': true, 'is-next': competition.isNext }">
-    <div :class="{ 'bg-gradient-overlay': true, 'is-next': competition.isNext }" />
+  <div :class="{ 'competition-card': true, 'is-next': competition.isNext, 'is-finished': competition.isFinished }">
+    <div :class="{ 'bg-gradient-overlay': true, 'is-next': competition.isNext , 'is-finished': competition.isFinished}" />
 
     <div class="competition-content">
 
@@ -64,6 +64,13 @@
       background-color: $red-color-300;
       color: $white-color;
     }
+
+    &.is-finished {
+      height: 232px;
+      border: none;
+      background-color: $black-color;
+      color: $white-color;
+    }
   }
 
   .bg-gradient-overlay {
@@ -77,6 +84,10 @@
 
     &.is-next {
       background: linear-gradient(90deg, #D01F1F 35.79%, rgba(106, 16, 16, 0.00) 127.24%);
+    }
+
+    &.is-finished {
+      background: linear-gradient(90deg, #212121 35.79%, rgba(106, 16, 16, 0.00) 127.24%);
     }
 
   }
