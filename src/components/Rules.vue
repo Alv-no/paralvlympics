@@ -120,31 +120,33 @@ const closeOverlay = () => {
 
             <li>1. plass: 25 poeng</li>
 
-            <li>2. plass: 18 poeng</li>
+            <li>2. plass: 21 poeng</li>
 
-            <li>3. plass: 15 poeng</li>
+            <li>3. plass: 18 poeng</li>
 
-            <li>4. plass: 12 poeng</li>
+            <li>4. plass: 15 poeng</li>
 
-            <li>5. plass: 10 poeng</li>
+            <li>5. plass: 12 poeng</li>
 
           </ul>
 
           <ul>
 
-            <li>6. plass: 8 poeng</li>
+            <li>6. plass: 10 poeng</li>
 
-            <li>7. plass: 6 poeng</li>
+            <li>7. plass: 8 poeng</li>
 
-            <li>8. plass: 4 poeng</li>
+            <li>8. plass: 6 poeng</li>
 
-            <li>9. plass: 2 poeng</li>
+            <li>9. plass: 5 poeng</li>
 
-            <li>10. plass: 1 poeng</li>
+            <li>10. plass: 4 poeng</li>
 
           </ul>
 
         </div>
+
+        <p>For øvrige plasseringer får 2 poeng for deltakelse.</p>
 
         <h3 class="title-md">Kontakt</h3>
 
@@ -153,23 +155,39 @@ const closeOverlay = () => {
         <div class="contact-list">
 
           <div class="contact-item">
-            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Julie.png" alt="Vikki Lauda" />
+             <img
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Julie.png"
+              alt="Vikki Lauda"
+            />
             <p>Vikki Lauda</p>
+
           </div>
 
           <div class="contact-item">
-            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Jakob.png" alt="Jakob Villeneuve" />
+             <img
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Jakob.png"
+              alt="Jakob Villeneuve"
+            />
             <p>Jakob Villeneuve</p>
+
           </div>
 
           <div class="contact-item">
-            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/John.png" alt="John Manuel Fangio" />
+             <img
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/John.png"
+              alt="John Manuel Fangio"
+            />
             <p>John Manuel Fangio</p>
+
           </div>
 
           <div class="contact-item">
-            <img src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Stian.png" alt="Stian Vettel" />
+             <img
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Stian.png"
+              alt="Stian Vettel"
+            />
             <p>Stian Vettel</p>
+
           </div>
 
         </div>
