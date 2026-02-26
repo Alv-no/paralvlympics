@@ -2,12 +2,20 @@
 import { computed } from 'vue'
 import type { Contestant } from '@/types/api-types'
 import dotMeshPng from '@/assets/images/contestant-card-dot-mesh.png'
+import { Gauge, Wrench, Cpu, Dumbbell, Crown } from 'lucide-vue-next'
+
+const roleConfig: Record<string, { icon: typeof Gauge; label: string }> = {
+  'driver':          { icon: Gauge,    label: 'Driver' },
+  'mechanic':        { icon: Wrench,   label: 'Mechanic' },
+  'race engineer':   { icon: Cpu,      label: 'Race Engineer' },
+  'pit muscle':      { icon: Dumbbell, label: 'Pit Muscle' },
+  'team principal':  { icon: Crown,    label: 'Team Principal' },
+}
 
 const { contestant } = defineProps<{
   contestant: Contestant
 }>()
 
-// Function to lighten a hex color by mixing with white
 function lightenColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16)
   const r = Math.min(255, ((num >> 16) & 0xff) + Math.round((255 - ((num >> 16) & 0xff)) * percent / 100))
@@ -21,10 +29,19 @@ const backgroundGradient = computed(() => {
   const lighterColor = lightenColor(baseColor, 20)
   return `linear-gradient(to right, ${baseColor}, ${lighterColor})`
 })
+
+const ratings = computed(() => [
+  { label: 'Selvtillit',       value: contestant.ratingSelvtillit },
+  { label: 'Logisk tenkning',  value: contestant.ratingLogiskTenkning },
+  { label: 'Reaksjonsevne',    value: contestant.ratingReaksjonsevne },
+  { label: 'Samarbeidsevne',   value: contestant.ratingSamarbeidsevne },
+  { label: 'Kommunikasjon',    value: contestant.ratingKommunikasjon },
+])
+
+const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
 </script>
 
 <template>
-
   <div class="contestant-card" :style="{ background: backgroundGradient }">
 
     <div class="card-dot-mesh">
@@ -38,59 +55,64 @@ const backgroundGradient = computed(() => {
     <div class="card-content">
 
       <div class="contestant-header">
-
         <div class="contestant-name">
-
           <h3 class="title-md">{{ contestant.firstName }} {{ contestant.lastName }}</h3>
-
           <p class="body-sm team-name" :style="{ color: contestant.team.color }">
-             {{ contestant.team.name }}
+            {{ contestant.team.name }}
           </p>
 
         </div>
-
       </div>
 
       <div class="contestant-stats">
-
         <div class="stat-item">
-
           <p class="label-xs">Poeng</p>
-
           <p class="title-sm">{{ contestant.totalPoints }}</p>
-
         </div>
-
         <div class="stat-item">
-
           <p class="label-xs">Pallplasser</p>
-
           <p class="title-sm">{{ contestant.totalPodiums }}</p>
-
         </div>
-
         <div class="stat-item">
-
           <p class="label-xs">Seiere</p>
-
           <p class="title-sm">{{ contestant.totalFirstPlaces }}</p>
-
         </div>
-
         <div class="stat-item">
-
           <p class="label-xs">Karriereseiere</p>
-
           <p class="title-sm">{{ contestant.careerWins }}</p>
-
         </div>
+        <div class="stat-item">
+          <p class="label-xs">Paralympics-deltagelser</p>
+          <p class="title-sm">{{ contestant.paralympicsParticipations }}</p>
+        </div>
+        <div class="stat-item">
+          <p class="label-xs">Seiere totalt</p>
+          <p class="title-sm">{{ contestant.totalWins }}</p>
+        </div>
+      </div>
 
+      <div v-if="role" class="role-badge" :style="{ backgroundColor: contestant.team.color }">
+        <component :is="role.icon" :size="14" color="white" />
+        <span>{{ role.label }}</span>
+      </div>
+
+      <div class="contestant-ratings">
+        <div v-for="r in ratings" :key="r.label" class="rating-item">
+          <p class="label-xs">{{ r.label }}</p>
+          <div class="rating-pips">
+            <span
+              v-for="n in 5"
+              :key="n"
+              class="pip"
+              :class="{ filled: n <= r.value }"
+              :style="{ backgroundColor: n <= r.value ? contestant.team.color : undefined }"
+            />
+          </div>
+        </div>
       </div>
 
     </div>
-
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -107,6 +129,7 @@ const backgroundGradient = computed(() => {
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 440px;
   }
 }
 
@@ -159,23 +182,24 @@ const backgroundGradient = computed(() => {
   width: 100%;
   height: 100%;
   z-index: 3;
-  padding: 20px;
+  padding: 16px 20px 44px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   background-color: $white-color;
   opacity: 0;
   transition: opacity 0.3s ease;
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+.contestant-card:hover .card-content {
+  pointer-events: auto;
 }
 
 .contestant-card:hover {
-  .card-image {
-    opacity: 0;
-  }
-
-  .card-content {
-    opacity: 1;
-  }
+  .card-image { opacity: 0; }
+  .card-content { opacity: 1; }
 }
 
 .contestant-header {
@@ -194,11 +218,29 @@ const backgroundGradient = computed(() => {
   font-weight: 600;
 }
 
+.role-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  width: fit-content;
+
+  span {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+  }
+}
+
 .contestant-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: auto;
+  gap: 10px 16px;
 }
 
 .stat-item {
@@ -206,5 +248,43 @@ const backgroundGradient = computed(() => {
   flex-direction: column;
   gap: 4px;
 }
-</style>
 
+// Ratings section
+.contestant-ratings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 12px;
+  margin-bottom: 0;
+}
+
+.rating-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  .label-xs {
+    flex: 1;
+  }
+}
+
+.rating-pips {
+  display: flex;
+  gap: 4px;
+}
+
+.pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.3;
+
+  &.filled {
+    opacity: 1;
+    border-color: transparent;
+  }
+}
+</style>

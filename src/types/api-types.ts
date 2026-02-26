@@ -6,17 +6,29 @@ export interface Team {
   totalPoints: number
 }
 
+
 export interface Contestant {
-  id: number
   firstName: string
   lastName: string
-  careerWins: number
-  seasonsCompeted: number
   imageUrl: string
-  team: Team
   totalPoints: number
   totalPodiums: number
   totalFirstPlaces: number
+  careerWins: number
+  team: {
+    name: string
+    color: string
+  }
+
+  role: string                      
+  paralympicsParticipations: number 
+  totalWins: number                 
+
+  ratingSelvtillit: number
+  ratingLogiskTenkning: number
+  ratingReaksjonsevne: number
+  ratingSamarbeidsevne: number
+  ratingKommunikasjon: number
 }
 
 export interface Competition {
