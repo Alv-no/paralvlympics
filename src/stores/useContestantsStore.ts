@@ -15,6 +15,14 @@ interface ContestantRow {
   seasons_competed: number
   image_url: string
   team_id: number
+  role: string | null
+  paralympics_participations: number | null
+  total_wins: number | null
+  rating_selvtillit: number | null
+  rating_logisk_tenkning: number | null
+  rating_reaksjonsevne: number | null
+  rating_samarbeidsevne: number | null
+  rating_kommunikasjon: number | null
 }
 
 export const useContestantsStore = defineStore('contestants', () => {
@@ -27,14 +35,12 @@ export const useContestantsStore = defineStore('contestants', () => {
       return
     }
 
-    // Reuse teams from useTeamsStore
     const teamsStore = useTeamsStore()
     if (teamsStore.teams.length === 0) {
       await teamsStore.fetchTeams()
     }
     const teamsMap = new Map(teamsStore.teams.map(team => [team.id, team]))
 
-    // Reuse results from useResultsStore
     const resultsStore = useResultsStore()
     if (resultsStore.contestantStats.size === 0) {
       await resultsStore.fetchResults()
@@ -47,7 +53,15 @@ export const useContestantsStore = defineStore('contestants', () => {
         career_wins,
         seasons_competed,
         image_url,
-        team_id
+        team_id,
+        role,
+        paralympics_participations,
+        total_wins,
+        rating_selvtillit,
+        rating_logisk_tenkning,
+        rating_reaksjonsevne,
+        rating_samarbeidsevne,
+        rating_kommunikasjon
       `)
 
     if (error || !data) {
@@ -55,7 +69,6 @@ export const useContestantsStore = defineStore('contestants', () => {
       return
     }
 
-    // Transform to Contestant type and sort by total points (descending)
     contestants.value = data
       .map((contestant: ContestantRow) => {
         const stats = resultsStore.contestantStats.get(contestant.id) || {
@@ -86,6 +99,14 @@ export const useContestantsStore = defineStore('contestants', () => {
           totalPoints: stats.totalPoints,
           totalPodiums: stats.totalPodiums,
           totalFirstPlaces: stats.totalFirstPlaces,
+          role: contestant.role ?? '',
+          paralympicsParticipations: contestant.paralympics_participations ?? 0,
+          totalWins: contestant.total_wins ?? 0,
+          ratingSelvtillit: contestant.rating_selvtillit ?? 0,
+          ratingLogiskTenkning: contestant.rating_logisk_tenkning ?? 0,
+          ratingReaksjonsevne: contestant.rating_reaksjonsevne ?? 0,
+          ratingSamarbeidsevne: contestant.rating_samarbeidsevne ?? 0,
+          ratingKommunikasjon: contestant.rating_kommunikasjon ?? 0,
         }
       })
       .sort((a, b) => b.totalPoints - a.totalPoints)
