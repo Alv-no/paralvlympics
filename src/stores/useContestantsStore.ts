@@ -46,6 +46,7 @@ export const useContestantsStore = defineStore('contestants', () => {
       await resultsStore.fetchResults()
     }
 
+    // added ratings
     const { data, error } = await supabase.from('contestants').select(`
       id,
       first_name,
