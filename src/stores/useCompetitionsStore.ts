@@ -23,27 +23,23 @@ export const useCompetitionsStore = defineStore('competitions', () => {
       return
     }
 
-    // Reuse teams from useTeamsStore
     const teamsStore = useTeamsStore()
     if (teamsStore.teams.length === 0) {
       await teamsStore.fetchTeams()
     }
     const teamsMap = new Map(teamsStore.teams.map(team => [team.id, team]))
 
-    // Reuse contestants from useContestantsStore
     const contestantsStore = useContestantsStore()
     if (contestantsStore.contestants.length === 0) {
       await contestantsStore.fetchContestants()
     }
     const contestantsMap = new Map(contestantsStore.contestants.map(c => [c.id, c]))
 
-    // Reuse results from useResultsStore
     const resultsStore = useResultsStore()
     if (resultsStore.contestantResults.length === 0 || resultsStore.teamResults.length === 0) {
       await resultsStore.fetchResults()
     }
 
-    // Fetch competitions only (results are already fetched)
     const { data: competitionsData, error: competitionsError } = await supabase
       .from('competitions')
       .select('*')
@@ -53,12 +49,10 @@ export const useCompetitionsStore = defineStore('competitions', () => {
       return
     }
 
-    // Transform to Competition type and sort by id
     competitions.value = competitionsData
       .slice()
       .sort((a, b) => a.id - b.id)
       .map((comp: CompetitionRow) => {
-        // Get results for this competition from results store
         const compContestantResults = resultsStore.getContestantResultsByCompetition(comp.id)
         const compTeamResults = resultsStore.getTeamResultsByCompetition(comp.id)
 
@@ -83,6 +77,14 @@ export const useCompetitionsStore = defineStore('competitions', () => {
               totalPoints: contestant.totalPoints,
               totalPodiums: contestant.totalPodiums,
               totalFirstPlaces: contestant.totalFirstPlaces,
+              role: contestant.role,
+              paralympicsParticipations: contestant.paralympicsParticipations,
+              totalWins: contestant.totalWins,
+              ratingSelvtillit: contestant.ratingSelvtillit,
+              ratingLogiskTenkning: contestant.ratingLogiskTenkning,
+              ratingReaksjonsevne: contestant.ratingReaksjonsevne,
+              ratingSamarbeidsevne: contestant.ratingSamarbeidsevne,
+              ratingKommunikasjon: contestant.ratingKommunikasjon,
             },
           }
         }).filter((result): result is NonNullable<typeof result> => result !== null)

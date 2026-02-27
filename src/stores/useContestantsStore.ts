@@ -47,27 +47,27 @@ export const useContestantsStore = defineStore('contestants', () => {
     }
 
     const { data, error } = await supabase.from('contestants').select(`
-        id,
-        first_name,
-        last_name,
-        career_wins,
-        seasons_competed,
-        image_url,
-        team_id,
-        role,
-        paralympics_participations,
-        total_wins,
-        rating_selvtillit,
-        rating_logisk_tenkning,
-        rating_reaksjonsevne,
-        rating_samarbeidsevne,
-        rating_kommunikasjon
-      `)
+      id,
+      first_name,
+      last_name,
+      career_wins,
+      seasons_competed,
+      image_url,
+      team_id,
+      role,
+      paralympics_participations,
+      total_wins,
+      rating_selvtillit,
+      rating_logisk_tenkning,
+      rating_reaksjonsevne,
+      rating_samarbeidsevne,
+      rating_kommunikasjon
+    `) 
 
-    if (error || !data) {
-      console.error('Error fetching contestants:', error)
-      return
-    }
+  if (error || !data) {
+    console.error('Error fetching contestants:', error)
+    return
+  }
 
     contestants.value = data
       .map((contestant: ContestantRow) => {
