@@ -28,21 +28,13 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
       lastFetched.value &&
       now - lastFetched.value < FIVE_MINUTES &&
       lastFetchedCompetitionId.value === competitionId
-    ) {
-      console.log('cache hit, skipping fetch for competitionId:', competitionId)
-      return
-    }
-
-    console.log('fetching for competitionId:', competitionId)
+    ) return
 
     const { data, error } = await supabase
       .from('current_competition')
       .select('*')
       .eq('competition_id', competitionId)
       .order('id', { ascending: true })
-
-    console.log('data:', data)
-    console.log('error:', error)
 
     if (error || !data) {
       console.error('Error fetching current competition data:', error)
@@ -61,11 +53,6 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
     const competitionEntries = currentCompetitionData.value.filter(
       e => e.competition_id === competitionId
     )
-
-    console.log('getResultsForCompetition - competitionId:', competitionId)
-    console.log('getResultsForCompetition - currentCompetitionData:', currentCompetitionData.value)
-    console.log('getResultsForCompetition - competitionEntries:', competitionEntries)
-    console.log('getResultsForCompetition - contestants:', contestants.length)
 
     const contestantMap = new Map(contestants.map(c => [c.id, c]))
 
@@ -93,10 +80,10 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
 
     results.sort((a, b) => b.bestResult - a.bestResult)
 
-    const pointsScale = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+    const pointsScale = [25, 21, 18, 15, 12, 10, 8, 6, 5, 4]
     return results.map((r, i) => ({
       ...r,
-      points: pointsScale[i] ?? 0,
+      points: pointsScale[i] ?? 2,
       placement: i + 1,
     }))
   }
