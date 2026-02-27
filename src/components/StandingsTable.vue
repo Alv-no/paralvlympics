@@ -10,19 +10,14 @@ const itemsPerPage = 15
 const currentPage = ref(1)
 const isForward = ref(true)
 
-const totalPages = computed(() => {
-  return Math.ceil(props.rows.length / itemsPerPage)
-})
+const totalPages = computed(() => Math.ceil(props.rows.length / itemsPerPage))
 
 const paginatedRows = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return props.rows.slice(start, end)
+  return props.rows.slice(start, start + itemsPerPage)
 })
 
-const needsPagination = computed(() => {
-  return props.rows.length > itemsPerPage
-})
+const needsPagination = computed(() => props.rows.length > itemsPerPage)
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
@@ -40,55 +35,38 @@ const prevPage = () => {
 </script>
 
 <template>
-
   <div class="standings-table">
-
     <table>
-
       <thead>
-
         <tr>
-
           <th v-for="col in cols" :key="col">{{ col }}</th>
-
         </tr>
-
       </thead>
-       <Transition :name="isForward ? 'fade-slide' : 'fade-slide-reverse'" mode="out-in"
-        >
+      <Transition :name="isForward ? 'fade-slide' : 'fade-slide-reverse'" mode="out-in">
         <tbody :key="currentPage">
-
-          <tr v-for="(row, index) in paginatedRows" :key="index">
-
-            <td v-for="(col, index) in cols" :key="index">{{ row[index] }}</td>
-
+          <tr v-for="(row, rowIndex) in paginatedRows" :key="rowIndex">
+            <td v-for="(col, colIndex) in cols" :key="colIndex">{{ row[colIndex] }}</td>
           </tr>
-
         </tbody>
-         </Transition
-      >
+      </Transition>
     </table>
 
     <div v-if="needsPagination" class="pagination">
-       <button
+      <button
         @click="prevPage"
         :disabled="currentPage === 1"
         class="pagination-button"
         aria-label="Previous page"
-      >
-         ← </button
-      > <span class="pagination-info"> Side {{ currentPage }} av {{ totalPages }} </span> <button
+      >←</button>
+      <span class="pagination-info">Side {{ currentPage }} av {{ totalPages }}</span>
+      <button
         @click="nextPage"
         :disabled="currentPage === totalPages"
         class="pagination-button"
         aria-label="Next page"
-      >
-         → </button
-      >
+      >→</button>
     </div>
-
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -110,9 +88,6 @@ table {
 th {
   @extend .label-md;
   text-align: start;
-}
-
-th {
   padding: 12px 0;
   border-bottom: 1px solid $black-color;
 }
@@ -126,7 +101,6 @@ tbody {
   position: relative;
 }
 
-// Fade slide transition animations
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition: all 0.4s ease-in-out;
@@ -152,7 +126,6 @@ tbody {
   transform: translateX(-30px);
 }
 
-// Reverse fade slide transition animations (for going back)
 .fade-slide-reverse-enter-active,
 .fade-slide-reverse-leave-active {
   transition: all 0.4s ease-in-out;
@@ -178,7 +151,6 @@ tbody {
   transform: translateX(30px);
 }
 
-// Pagination styles
 .pagination {
   display: flex;
   align-items: center;
@@ -215,4 +187,3 @@ tbody {
   color: $black-color;
 }
 </style>
-

@@ -6,8 +6,6 @@ export interface Team {
   totalPoints: number
 }
 
-
-
 export interface Contestant {
   id: number
   firstName: string
@@ -56,4 +54,13 @@ export interface TeamResult {
   team: Team
   placement: number
   prize: number
+}
+
+export interface CurrentCompetitionEntry {
+  id: number
+  created_at: string
+  competition_id: number
+  contestant_id: number
+  result: number
+  metric: string
 }

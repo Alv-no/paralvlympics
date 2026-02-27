@@ -149,6 +149,48 @@ export interface Database {
           }
         ]
       }
+      current_competition: {
+        Row: {
+          id: number
+          created_at: string
+          competition_id: number
+          contestant_id: number
+          result: number
+          metric: string
+        }
+        Insert: {
+          id?: number
+          created_at?: string
+          competition_id: number
+          contestant_id: number
+          result: number
+          metric: string
+        }
+        Update: {
+          id?: number
+          created_at?: string
+          competition_id?: number
+          contestant_id?: number
+          result?: number
+          metric?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "current_competition_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "current_competition_contestant_id_fkey"
+            columns: ["contestant_id"]
+            isOneToOne: false
+            referencedRelation: "contestants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       team_results: {
         Row: {
           id: number
