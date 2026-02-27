@@ -32,8 +32,10 @@ const roleConfig: Record<string, { icon: typeof Gauge; label: string }> = {
   'team principal': { icon: Crown,    label: 'Team Principal' },
 }
 
+const getRole = (role: string | null) => role ? roleConfig[role.toLowerCase()] ?? null : null
+
 const currentCompetition = computed(() =>
-  competitions.value.find(c => c.isNext || !c.isFinished) ?? competitions.value[competitions.value.length - 1]
+  competitions.value.find((c: any) => c.isNext || !c.isFinished) ?? competitions.value[competitions.value.length - 1]
 )
 
 onMounted(async () => {
@@ -130,9 +132,9 @@ const teamRows = computed(() =>
                     <span class="podium-card__name">{{ podium[1].contestant.firstName }} {{ podium[1].contestant.lastName }}</span>
                     <span class="podium-card__result">{{ podium[1].bestResult }}m</span>
                     <span class="podium-card__points">{{ podium[1].points }} pts</span>
-                    <div v-if="roleConfig[podium[1].contestant.role?.toLowerCase()]" class="podium-card__role">
-                      <component :is="roleConfig[podium[1].contestant.role.toLowerCase()].icon" :size="12" color="white" />
-                      <span>{{ roleConfig[podium[1].contestant.role.toLowerCase()].label }}</span>
+                    <div v-if="getRole(podium[1].contestant.role)" class="podium-card__role">
+                      <component :is="getRole(podium[1].contestant.role)!.icon" :size="12" color="white" />
+                      <span>{{ getRole(podium[1].contestant.role)!.label }}</span>
                     </div>
                   </div>
                   <img class="podium-card__img" :src="podium[1].contestant.imageUrl" :alt="podium[1].contestant.firstName" />
@@ -146,9 +148,9 @@ const teamRows = computed(() =>
                     <span class="podium-card__name">{{ podium[0].contestant.firstName }} {{ podium[0].contestant.lastName }}</span>
                     <span class="podium-card__result">{{ podium[0].bestResult }}m</span>
                     <span class="podium-card__points">{{ podium[0].points }} pts</span>
-                    <div v-if="roleConfig[podium[0].contestant.role?.toLowerCase()]" class="podium-card__role">
-                      <component :is="roleConfig[podium[0].contestant.role.toLowerCase()].icon" :size="12" color="white" />
-                      <span>{{ roleConfig[podium[0].contestant.role.toLowerCase()].label }}</span>
+                    <div v-if="getRole(podium[0].contestant.role)" class="podium-card__role">
+                      <component :is="getRole(podium[0].contestant.role)!.icon" :size="12" color="white" />
+                      <span>{{ getRole(podium[0].contestant.role)!.label }}</span>
                     </div>
                   </div>
                   <img class="podium-card__img" :src="podium[0].contestant.imageUrl" :alt="podium[0].contestant.firstName" />
@@ -162,9 +164,9 @@ const teamRows = computed(() =>
                     <span class="podium-card__name">{{ podium[2].contestant.firstName }} {{ podium[2].contestant.lastName }}</span>
                     <span class="podium-card__result">{{ podium[2].bestResult }}m</span>
                     <span class="podium-card__points">{{ podium[2].points }} pts</span>
-                    <div v-if="roleConfig[podium[2].contestant.role?.toLowerCase()]" class="podium-card__role">
-                      <component :is="roleConfig[podium[2].contestant.role.toLowerCase()].icon" :size="12" color="white" />
-                      <span>{{ roleConfig[podium[2].contestant.role.toLowerCase()].label }}</span>
+                    <div v-if="getRole(podium[2].contestant.role)" class="podium-card__role">
+                      <component :is="getRole(podium[2].contestant.role)!.icon" :size="12" color="white" />
+                      <span>{{ getRole(podium[2].contestant.role)!.label }}</span>
                     </div>
                   </div>
                   <img class="podium-card__img" :src="podium[2].contestant.imageUrl" :alt="podium[2].contestant.firstName" />
@@ -191,12 +193,12 @@ const teamRows = computed(() =>
                           <img class="driver-cell__avatar" :src="r.contestant.imageUrl" :alt="r.contestant.firstName" />
                           <span class="driver-cell__name">{{ r.contestant.firstName }} {{ r.contestant.lastName }}</span>
                           <div
-                            v-if="roleConfig[r.contestant.role?.toLowerCase()]"
+                            v-if="getRole(r.contestant.role)"
                             class="driver-cell__role"
                             :style="{ backgroundColor: r.contestant.team.color }"
                           >
-                            <component :is="roleConfig[r.contestant.role.toLowerCase()].icon" :size="11" color="white" />
-                            <span>{{ roleConfig[r.contestant.role.toLowerCase()].label }}</span>
+                            <component :is="getRole(r.contestant.role)!.icon" :size="11" color="white" />
+                            <span>{{ getRole(r.contestant.role)!.label }}</span>
                           </div>
                         </div>
                       </td>
