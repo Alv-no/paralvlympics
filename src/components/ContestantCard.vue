@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import type { Contestant } from '@/types/api-types'
 import dotMeshPng from '@/assets/images/contestant-card-dot-mesh.png'
+import { teamLogos } from '@/assets/teamLogos'
 import { Gauge, Wrench, Cpu, Dumbbell, Crown } from 'lucide-vue-next'
 
 const roleConfig: Record<string, { icon: typeof Gauge; label: string }> = {
@@ -39,6 +40,8 @@ const ratings = computed(() => [
 ])
 
 const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
+
+const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
 </script>
 
 <template>
@@ -52,6 +55,11 @@ const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
       <img :src="contestant.imageUrl" :alt="`${contestant.firstName} ${contestant.lastName}`" loading="lazy" />
     </div>
 
+    <!-- Team logo badge (visible on default/non-hover state) -->
+    <div v-if="teamLogo" class="team-logo-badge">
+      <img :src="teamLogo" :alt="contestant.team.name" />
+    </div>
+
     <div class="card-content">
 
       <div class="contestant-header">
@@ -60,8 +68,9 @@ const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
           <p class="body-sm team-name" :style="{ color: contestant.team.color }">
             {{ contestant.team.name }}
           </p>
-
         </div>
+        <!-- Logo also shown in content panel when hovered -->
+        <img v-if="teamLogo" class="team-logo-content" :src="teamLogo" :alt="contestant.team.name" />
       </div>
 
       <div class="contestant-stats">
@@ -175,6 +184,29 @@ const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
   }
 }
 
+// Badge visible on the card image (non-hovered)
+.team-logo-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+
+  img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+  }
+}
+
+// Hide badge when hovered (content panel takes over)
+.contestant-card:hover .team-logo-badge {
+  opacity: 0;
+}
+
 .card-content {
   position: absolute;
   top: 0;
@@ -214,6 +246,14 @@ const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
   gap: 4px;
 }
 
+// Logo shown inside content panel header
+.team-logo-content {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .team-name {
   font-weight: 600;
 }
@@ -249,7 +289,6 @@ const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
   gap: 4px;
 }
 
-// Ratings section
 .contestant-ratings {
   display: flex;
   flex-direction: column;

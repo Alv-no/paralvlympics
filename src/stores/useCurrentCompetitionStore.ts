@@ -80,6 +80,7 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
 
     results.sort((a, b) => b.bestResult - a.bestResult)
 
+    //point system
     const pointsScale = [25, 21, 18, 15, 12, 10, 8, 6, 5, 4]
     return results.map((r, i) => ({
       ...r,
