@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import PLTSelect from './form/PLTSelect.vue'
 
-const { items } = defineProps<{ items: string[] }>()
+export interface TabItem {
+  label: string
+  logo?: string
+}
+
+const { items } = defineProps<{
+  items: TabItem[]
+}>()
 
 const selectedTab = defineModel<string | null>('selected-tab', { required: true })
 </script>
@@ -11,18 +18,19 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
     <div class="tab-items">
       <div
         v-for="item in items"
-        :class="['tab-item', { 'selected-tab-item': selectedTab === item }]"
-        :key="item"
-        @click="() => (selectedTab = item)"
+        :class="['tab-item', { 'selected-tab-item': selectedTab === item.label }]"
+        :key="item.label"
+        @click="() => (selectedTab = item.label)"
       >
-        {{ item }}
+        <img v-if="item.logo" :src="item.logo" :alt="item.label" class="tab-logo" />
+        {{ item.label }}
       </div>
     </div>
   </div>
   <PLTSelect
     class="tab-bar-select"
     v-model="selectedTab"
-    :options="items.map((i) => ({ id: i, name: i }))"
+    :options="items.map((i) => ({ id: i.label, name: i.label }))"
   />
 </template>
 
@@ -42,6 +50,9 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
 
 .tab-item {
   @extend .title-xs;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-align: center;
   cursor: pointer;
   padding: 0 12px 11px 12px;
@@ -49,6 +60,12 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
   &.selected-tab-item {
     border-bottom: 3px solid $red-color-300;
   }
+}
+
+.tab-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .tab-bar-select {

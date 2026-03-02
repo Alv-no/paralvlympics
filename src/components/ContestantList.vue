@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import PLTTabs from './ui/PLTTabs.vue'
+import type { TabItem } from './ui/PLTTabs.vue'
 import ContestantCard from './ContestantCard.vue'
 import { useContestantsStore } from '@/stores/useContestantsStore'
 import { useTeamsStore } from '@/stores/useTeamsStore'
+import { teamLogos } from '@/assets/teamLogos'
 import { computed, ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+
+const selectedTeamData = computed(() =>
+  teams.value.find((t) => t.name === selectedTeam.value) ?? null
+)
 
 const selectedTeam = ref<string | null>(null)
 
@@ -14,9 +20,11 @@ const { contestants } = storeToRefs(contestantsStore)
 const teamsStore = useTeamsStore()
 const { teams } = storeToRefs(teamsStore)
 
-const teamNames = computed(() => {
-  const names = teams.value.map((team) => team.name)
-  return ['Alle', ...names]
+const teamNames = computed<TabItem[]>(() => {
+  const teamItems = teams.value.map((team) => ({
+    label: team.name,
+  }))
+  return [{ label: 'Alle' }, ...teamItems]
 })
 
 const filteredContestants = computed(() => {
@@ -29,7 +37,6 @@ const filteredContestants = computed(() => {
 onMounted(() => {
   contestantsStore.fetchContestants()
   teamsStore.fetchTeams()
-  // Set initial selected team to "Alle"
   if (teamNames.value.length > 0) {
     selectedTeam.value = 'Alle'
   }
@@ -37,17 +44,31 @@ onMounted(() => {
 </script>
 
 <template>
-
   <section id="contestants" class="driver-list-wrapper">
 
     <h2 class="title-lg">Førere</h2>
 
     <div class="tabs-container" v-if="teamNames.length > 1">
-       <PLTTabs :items="teamNames" v-model:selected-tab="selectedTeam" />
+      <PLTTabs :items="teamNames" v-model:selected-tab="selectedTeam" />
     </div>
 
+    <Transition name="banner">
+      <div
+        v-if="selectedTeamData"
+        class="team-banner"
+        :style="{ backgroundColor: selectedTeamData.color }"
+      >
+        <img
+          v-if="teamLogos[selectedTeamData.name]"
+          :src="teamLogos[selectedTeamData.name]"
+          :alt="selectedTeamData.name"
+          class="team-banner-logo"
+        />
+      </div>
+    </Transition>
+
     <div class="contestants-grid">
-       <ContestantCard
+      <ContestantCard
         v-for="contestant in filteredContestants"
         :key="contestant.id"
         :contestant="contestant"
@@ -55,7 +76,6 @@ onMounted(() => {
     </div>
 
   </section>
-
 </template>
 
 <style scoped lang="scss">
@@ -68,6 +88,32 @@ onMounted(() => {
 
 .tabs-container {
   margin-top: 32px;
+}
+
+.team-banner {
+  margin-top: 24px;
+  border-radius: 16px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.team-banner-logo {
+  height: 110px;
+  width: auto;
+  object-fit: contain;
+}
+
+.banner-enter-active,
+.banner-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.banner-enter-from,
+.banner-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 
 .contestants-grid {
@@ -86,4 +132,3 @@ onMounted(() => {
   }
 }
 </style>
-
