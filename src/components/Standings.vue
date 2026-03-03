@@ -9,12 +9,6 @@ import { Gauge, Wrench, Cpu, Dumbbell, Crown, User, Trophy } from 'lucide-vue-ne
 import { computed, ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
-/**
- * PLTTabs expects: items: TabItem[]
- * We'll define a local TabItem shape that matches the common contract:
- * { id: string; label: string }
- * (No need to import the type from PLTTabs to fix TS2322.)
- */
 type TabItem = {
   id: string
   label: string
