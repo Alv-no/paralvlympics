@@ -1,0 +1,15 @@
+name: paralvlympics
+components:
+  - name: app
+    type: container
+    image:
+      repository: ghcr.io/alv-no/paralvlympics
+      tag: sha-bbb27e7
+    spec:
+      expose:
+        - port: 80
+      env:
+        - name: 'PREFIX_SUPABASE_URL'
+          value: 'https://jltydtjcwbpnbkixfekb.supabase.co/'
+        - name: 'PREFIX_SUPABASE_PUBLISHABLE_KEY'
+          value: 'sb_publishable_Nu6Qxges9LIW19cGaU08mA_Kf7UX8mU' #TODO move to a secret
