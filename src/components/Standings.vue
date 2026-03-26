@@ -132,7 +132,7 @@ const teamRows = computed(() =>
                     <span class="podium-card__name"
                       >{{ podium[1].contestant.firstName }} {{ podium[1].contestant.lastName }}</span
                     >
-                    <span class="podium-card__result">{{ podium[1].bestResult }}m</span>
+                    <span class="podium-card__result">{{ podium[1].bestResult != null ? `${podium[1].bestResult}${podium[1].metric ?? ''}` : '' }}</span>
                     <span class="podium-card__points">{{ podium[1].points }} pts</span>
                     <div v-if="getRole(podium[1].contestant.role)" class="podium-card__role">
                       <component :is="getRole(podium[1].contestant.role)!.icon" :size="12" color="white" />
@@ -158,7 +158,7 @@ const teamRows = computed(() =>
                     <span class="podium-card__name"
                       >{{ podium[0].contestant.firstName }} {{ podium[0].contestant.lastName }}</span
                     >
-                    <span class="podium-card__result">{{ podium[0].bestResult }}m</span>
+                    <span class="podium-card__result">{{ podium[0].bestResult != null ? `${podium[0].bestResult}${podium[0].metric ?? ''}` : '' }}</span>
                     <span class="podium-card__points">{{ podium[0].points }} pts</span>
                     <div v-if="getRole(podium[0].contestant.role)" class="podium-card__role">
                       <component :is="getRole(podium[0].contestant.role)!.icon" :size="12" color="white" />
@@ -184,7 +184,7 @@ const teamRows = computed(() =>
                     <span class="podium-card__name"
                       >{{ podium[2].contestant.firstName }} {{ podium[2].contestant.lastName }}</span
                     >
-                    <span class="podium-card__result">{{ podium[2].bestResult }}m</span>
+                    <span class="podium-card__result">{{ podium[2].bestResult != null ? `${podium[2].bestResult}${podium[2].metric ?? ''}` : '' }}</span>
                     <span class="podium-card__points">{{ podium[2].points }} pts</span>
                     <div v-if="getRole(podium[2].contestant.role)" class="podium-card__role">
                       <component :is="getRole(podium[2].contestant.role)!.icon" :size="12" color="white" />
