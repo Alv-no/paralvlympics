@@ -229,7 +229,7 @@ const teamRows = computed(() =>
                         </div>
                       </td>
                       <td>{{ r.contestant.team.name }}</td>
-                      <td>{{ r.bestResult }}m</td>
+                      <td>{{ r.bestResult != null ? `${r.bestResult}${r.metric ?? ''}` : '' }}</td>
                       <td>{{ r.points }}</td>
                     </tr>
                   </tbody>
