@@ -22,6 +22,7 @@ const selectedConstructorsTab = ref<string>('Sammenlagt')
 const driversTabs = computed<TabItem[]>(() => [
   { id: 'Konkurranse', label: 'Konkurranse' },
   { id: 'Sammenlagt', label: 'Sammenlagt' },
+  { id: 'Oversikt', label: 'Oversikt' },
 ])
 
 const constructorsTabs = computed<TabItem[]>(() => [
@@ -94,6 +95,27 @@ const teamRows = computed(() =>
   [...teams.value]
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .map((t, i) => [i + 1, t.name, t.totalPoints]),
+)
+
+const { contestantResults } = storeToRefs(resultsStore)
+
+const driverPerCompetitionCols = computed(() => [
+  'Fører',
+  'Lag',
+  ...finishedCompetitions.value.map((c: any) => c.name),
+  'Totalt',
+])
+
+const driverPerCompetitionRows = computed(() =>
+  sortedContestants.value.map((c) => {
+    const pointsPerComp = finishedCompetitions.value.map((comp: any) => {
+      const result = contestantResults.value.find(
+        (r) => r.contestant_id === c.id && r.competition_id === comp.id
+      )
+      return result?.prize ?? '—'
+    })
+    return [c.firstName + ' ' + c.lastName, c.team.name, ...pointsPerComp, c.totalPoints]
+  })
 )
 
 const finishedCompetitions = computed(() =>
@@ -266,6 +288,19 @@ const teamPerCompetitionRows = computed(() => {
           <div v-if="selectedDriversTab === 'Sammenlagt'" class="tab-content">
             <h2 class="title-lg">Drivers Championship</h2>
             <StandingsTable :cols="['Plass', 'Fører', 'Lag', 'Poeng']" :rows="contestantRows" />
+          </div>
+
+          <!-- Oversikt -->
+          <div v-if="selectedDriversTab === 'Oversikt'" class="tab-content">
+            <h2 class="title-lg">Poeng per konkurranse</h2>
+            <p v-if="finishedCompetitions.length === 0" class="no-results">
+              Ingen fullførte konkurranser ennå.
+            </p>
+            <StandingsTable
+              v-else
+              :cols="driverPerCompetitionCols"
+              :rows="driverPerCompetitionRows"
+            />
           </div>
         </div>
 
