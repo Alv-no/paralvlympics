@@ -4,7 +4,7 @@ components:
     type: container
     image:
       repository: ghcr.io/alv-no/paralvlympics
-      tag: sha-0a76a7e
+      tag: sha-858a496
     config:
       expose:
         - port: 80
