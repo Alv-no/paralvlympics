@@ -5,9 +5,10 @@ components:
     image:
       repository: ghcr.io/alv-no/paralvlympics
       tag: sha-0a76a7e
-    spec:
+    config:
       expose:
         - port: 80
+          type: http
       env:
         - name: 'PREFIX_SUPABASE_URL'
           value: 'https://jltydtjcwbpnbkixfekb.supabase.co/'
