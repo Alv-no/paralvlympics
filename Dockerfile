@@ -12,6 +12,9 @@ FROM nginx:1.29-alpine AS runtime
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Email allowlist gate + SPA history fallback
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
 ENV ASSET_DIR=/usr/share/nginx/html
 ENV APP_PREFIX=PREFIX_
 # Copy the runtime injection script into the container

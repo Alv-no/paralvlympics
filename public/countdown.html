@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Paralvlympics</title>
+
+    <!--
+      Standalone page: served straight from nginx to visitors outside the
+      allowlist, so it must not depend on the Vite bundle. Inline styles and
+      script only. Colours mirror the tokens in src/assets/styles/globals.scss.
+    -->
+    <style>
+      @font-face {
+        font-family: 'Formula1';
+        src: url('/fonts/formula1-black.ttf') format('truetype');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --background: #212121;
+        --foreground: #f7f7f7;
+        --muted: #a5a5a5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100dvh;
+        padding: 24px;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .countdown {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        justify-content: center;
+        column-gap: clamp(12px, 4vw, 48px);
+        row-gap: clamp(16px, 5vw, 32px);
+      }
+
+      .unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(4px, 1vw, 12px);
+      }
+
+      .value {
+        font-family: 'Formula1', 'Poppins', sans-serif;
+        font-weight: 900;
+        font-size: clamp(2.75rem, 12vw, 11rem);
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.022em;
+      }
+
+      .label {
+        font-size: clamp(0.5rem, 1.4vw, 0.777rem);
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* Four units of this wide a typeface do not fit across a phone. Reflow to
+         2x2 rather than shrinking the digits into illegibility. */
+      @media (max-width: 640px) {
+        .countdown {
+          grid-template-columns: repeat(2, auto);
+        }
+
+        .value {
+          font-size: clamp(4rem, 22vw, 7rem);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="countdown" role="timer" aria-live="off">
+      <div class="unit">
+        <span class="value" id="days">--</span>
+        <span class="label">Days</span>
+      </div>
+      <div class="unit">
+        <span class="value" id="hours">--</span>
+        <span class="label">Hours</span>
+      </div>
+      <div class="unit">
+        <span class="value" id="minutes">--</span>
+        <span class="label">Minutes</span>
+      </div>
+      <div class="unit">
+        <span class="value" id="seconds">--</span>
+        <span class="label">Seconds</span>
+      </div>
+    </div>
+
+    <script>
+      // 21 August 2026, 12:00 in Oslo. August is unambiguously CEST (UTC+2), so
+      // the offset can be hardcoded without a timezone library.
+      var TARGET = new Date('2026-08-21T12:00:00+02:00').getTime()
+
+      var fields = {
+        days: document.getElementById('days'),
+        hours: document.getElementById('hours'),
+        minutes: document.getElementById('minutes'),
+        seconds: document.getElementById('seconds'),
+      }
+
+      function pad(value) {
+        return value < 10 ? '0' + value : String(value)
+      }
+
+      function render() {
+        // Recomputed from the target every tick, so the display cannot drift.
+        var remaining = Math.max(0, TARGET - Date.now())
+        var totalSeconds = Math.floor(remaining / 1000)
+
+        fields.days.textContent = String(Math.floor(totalSeconds / 86400))
+        fields.hours.textContent = pad(Math.floor(totalSeconds / 3600) % 24)
+        fields.minutes.textContent = pad(Math.floor(totalSeconds / 60) % 60)
+        fields.seconds.textContent = pad(totalSeconds % 60)
+
+        return remaining
+      }
+
+      if (render() > 0) {
+        var timer = setInterval(function () {
+          if (render() <= 0) {
+            clearInterval(timer)
+          }
+        }, 1000)
+      }
+    </script>
+  </body>
+</html>
