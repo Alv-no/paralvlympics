@@ -1,6 +1,7 @@
 <template>
-  <Teleport to="#portal-elements" :disabled="disableTeleport">
-    <transition name="fade-1">
+   <Teleport to="#portal-elements" :disabled="disableTeleport"
+    > <transition name="fade-1"
+      >
       <div
         v-if="isOpen"
         class="overlay-bg"
@@ -9,10 +10,9 @@
         }"
         @click="$emit('closeOverlay')"
       ></div>
-    </transition>
-
-    <transition name="fade-2">
-      <!-- styles defined inline so they work with Teleport -->
+       </transition
+    > <transition name="fade-2"
+      > <!-- styles defined inline so they work with Teleport -->
       <div
         v-if="isOpen"
         class="overlay"
@@ -25,10 +25,11 @@
           transform: centerOverlay,
         }"
       >
-        <slot />
+         <slot />
       </div>
-    </transition>
-  </Teleport>
+       </transition
+    > </Teleport
+  >
 </template>
 
 <script setup lang="ts">
@@ -75,7 +76,7 @@ watch(
 
 <style scoped lang="scss">
 .overlay {
-  background-color: $white-color;
+  background-color: $parchment-color;
   z-index: 200;
   opacity: 1;
 }
@@ -107,3 +108,4 @@ watch(
   opacity: 1;
 }
 </style>
+

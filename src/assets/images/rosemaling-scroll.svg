@@ -1,0 +1,34 @@
+<!-- Rosemaling vine scroll. Drawn pointing right; the left-hand copy is mirrored
+     with transform: scaleX(-1) at the usage site. -->
+<svg width="386" height="56" viewBox="0 0 386 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#dfb871" stroke-linecap="round" fill="none">
+    <!-- main vine, ending in the C-scroll every rosemaled panel is built around -->
+    <path
+      d="M0 44C64 44 92 16 152 16C204 16 232 46 292 42C324 40 350 32 354 20C357 11 350 4 342 6C333 8 331 19 340 23"
+      stroke-width="2.5"
+    />
+    <!-- lower echo and an upper tendril, the way the vines double back on themselves -->
+    <path d="M18 50C58 57 104 53 134 38" stroke-width="1.5" stroke-opacity=".55" />
+    <path d="M196 22C222 34 254 38 282 33" stroke-width="1.5" stroke-opacity=".55" />
+  </g>
+
+  <g fill="#dfb871">
+    <!-- acanthus leaves along the stem -->
+    <path d="M134 38Q110 20 92 30Q110 42 134 38Z" />
+    <path d="M196 22Q198 46 216 52Q220 30 196 22Z" />
+    <path d="M282 33Q258 21 244 31Q262 43 282 33Z" />
+
+    <!-- the rose itself: five lens petals around a seed -->
+    <g>
+      <path d="M310 26Q303 16 310 6Q317 16 310 26Z" />
+      <path d="M310 26Q303 16 310 6Q317 16 310 26Z" transform="rotate(72 310 26)" />
+      <path d="M310 26Q303 16 310 6Q317 16 310 26Z" transform="rotate(144 310 26)" />
+      <path d="M310 26Q303 16 310 6Q317 16 310 26Z" transform="rotate(216 310 26)" />
+      <path d="M310 26Q303 16 310 6Q317 16 310 26Z" transform="rotate(288 310 26)" />
+    </g>
+
+    <circle cx="152" cy="16" r="2.5" />
+    <circle cx="344" cy="15" r="2.5" />
+  </g>
+  <circle cx="310" cy="26" r="3.5" fill="#a63a24" />
+</svg>

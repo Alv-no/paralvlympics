@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&display=swap" rel="stylesheet">
     <title>Paralvlympics</title>
 
     <!--
@@ -16,18 +16,11 @@
       script only. Colours mirror the tokens in src/assets/styles/globals.scss.
     -->
     <style>
-      @font-face {
-        font-family: 'Formula1';
-        src: url('/fonts/formula1-black.ttf') format('truetype');
-        font-weight: 900;
-        font-style: normal;
-        font-display: swap;
-      }
-
       :root {
-        --background: #212121;
-        --foreground: #f7f7f7;
-        --muted: #a5a5a5;
+        --background: #151b2b;
+        --foreground: #f6efe1;
+        --muted: #a2947c;
+        --gilt: #dfb871;
       }
 
       * {
@@ -47,8 +40,12 @@
         min-height: 100dvh;
         padding: 24px;
         background: var(--background);
+        /* Woven twill, matching the texture on the app's dark panels. */
+        background-image:
+          repeating-linear-gradient(45deg, rgba(192, 138, 62, 0.05) 0 1px, transparent 1px 7px),
+          repeating-linear-gradient(-45deg, rgba(192, 138, 62, 0.05) 0 1px, transparent 1px 7px);
         color: var(--foreground);
-        font-family: 'Poppins', sans-serif;
+        font-family: 'EB Garamond', Georgia, serif;
       }
 
       .countdown {
@@ -67,16 +64,18 @@
       }
 
       .value {
-        font-family: 'Formula1', 'Poppins', sans-serif;
-        font-weight: 900;
+        font-family: 'Fraunces', 'EB Garamond', Georgia, serif;
+        font-variation-settings: 'SOFT' 40, 'WONK' 1;
+        font-weight: 700;
         font-size: clamp(2.75rem, 12vw, 11rem);
         line-height: 1;
         font-variant-numeric: tabular-nums;
-        letter-spacing: -0.022em;
+        letter-spacing: 0.004em;
+        color: var(--gilt);
       }
 
       .label {
-        font-size: clamp(0.5rem, 1.4vw, 0.777rem);
+        font-size: clamp(0.5rem, 1.4vw, 0.8125rem);
         font-weight: 600;
         letter-spacing: 0.18em;
         text-transform: uppercase;

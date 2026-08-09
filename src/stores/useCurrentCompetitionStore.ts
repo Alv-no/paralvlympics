@@ -28,7 +28,8 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
       lastFetched.value &&
       now - lastFetched.value < FIVE_MINUTES &&
       lastFetchedCompetitionId.value === competitionId
-    ) return
+    )
+      return
 
     const { data, error } = await supabase
       .from('current_competition')
@@ -48,13 +49,13 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
 
   function getResultsForCompetition(
     competitionId: number,
-    contestants: Contestant[]
+    contestants: Contestant[],
   ): ContestantResult[] {
     const competitionEntries = currentCompetitionData.value.filter(
-      e => e.competition_id === competitionId
+      (e) => e.competition_id === competitionId,
     )
 
-    const contestantMap = new Map(contestants.map(c => [c.id, c]))
+    const contestantMap = new Map(contestants.map((c) => [c.id, c]))
 
     const grouped = new Map<number, number[]>()
     for (const entry of competitionEntries) {
@@ -68,7 +69,7 @@ export const useCurrentCompetitionStore = defineStore('currentCompetition', () =
       if (!contestant) continue
 
       const best = Math.max(...entryResults)
-      const metric = competitionEntries.find(e => e.contestant_id === contestantId)?.metric ?? ''
+      const metric = competitionEntries.find((e) => e.contestant_id === contestantId)?.metric ?? ''
       results.push({
         contestant,
         results: entryResults,

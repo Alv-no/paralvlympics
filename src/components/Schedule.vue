@@ -1,26 +1,33 @@
 <script setup lang="ts">
-  import CompetitionCard from '@/components/CompetitionCard.vue'
-  import { useCompetitionsStore } from '@/stores/useCompetitionsStore'
-  import { storeToRefs } from 'pinia'
+import CompetitionCard from '@/components/CompetitionCard.vue'
+import { useCompetitionsStore } from '@/stores/useCompetitionsStore'
+import { storeToRefs } from 'pinia'
 
-  const competitionsStore = useCompetitionsStore()
-  const { competitions } = storeToRefs(competitionsStore)
-
-
+const competitionsStore = useCompetitionsStore()
+const { competitions } = storeToRefs(competitionsStore)
 </script>
 
 <template>
-    <section id="schedule" class="schedule-wrapper">
-      <h2 class="title-lg">Program</h2>
-      <div class="competition-wrapper">
-        <CompetitionCard v-for="competition, index in competitions" :key="competition.id" :competition="competition" :index="index" />
-      </div>
-</section>
+
+  <section id="schedule" class="schedule-wrapper">
+
+    <h2 class="title-lg">Program</h2>
+
+    <div class="competition-wrapper">
+       <CompetitionCard
+        v-for="(competition, index) in competitions"
+        :key="competition.id"
+        :competition="competition"
+        :index="index"
+      />
+    </div>
+
+  </section>
+
 </template>
 
-
 <style scoped lang="scss">
-  .schedule-wrapper {
+.schedule-wrapper {
     margin-top: 96px;
   }
 
@@ -36,3 +43,4 @@
 
   }
 </style>
+

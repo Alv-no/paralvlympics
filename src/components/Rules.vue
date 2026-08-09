@@ -35,38 +35,24 @@ const closeOverlay = () => {
     <div class="rules-overlay">
 
       <div class="rules-overlay-title">
-
-        <div class="rules-overlay-title-left">
-           <img src="@/assets/images/stripes-from-left.svg" />
-          <div class="stripes left-stripes">
-
-            <div class="stripe" />
-
-            <div class="stripe" />
-
-          </div>
-
-        </div>
-
+         <img
+          class="scroll scroll--left"
+          src="@/assets/images/rosemaling-scroll.svg"
+          alt=""
+          aria-hidden="true"
+        />
         <h2 class="title-lg">Regler</h2>
-
-        <div class="rules-overlay-title-right">
-           <img src="@/assets/images/stripes-from-right.svg" />
-          <div class="stripes right-stripes">
-
-            <div class="stripe" />
-
-            <div class="stripe" />
-
-          </div>
-
-        </div>
-
+         <img
+          class="scroll scroll--right"
+          src="@/assets/images/rosemaling-scroll.svg"
+          alt=""
+          aria-hidden="true"
+        />
       </div>
 
       <div class="rules-overlay-content">
 
-        <h3 class="title-md">Constructors Championship</h3>
+        <h3 class="title-md">Lagkonkurranse</h3>
 
         <p class="paragraph">
            Som de siste årene vil det denne sesongen være en lagkonkurranse, og i Formel-1 er dette
@@ -98,11 +84,10 @@ const closeOverlay = () => {
 
         </ul>
 
-        <h3 class="title-md">Drivers Championship</h3>
+        <h3 class="title-md">Indivduell konkurranse Championship</h3>
 
         <p class="paragraph">
-           Nytt for sesongen er at det også finnes en individuell konkurranse, kjent som Drivers
-          Championship. I denne konkurransen vil det deles ut poeng basert på hver deltakers
+          Vi beholder den individuelle konkurransen som forrige sesong. I denne konkurransen vil det deles ut poeng basert på hver deltakers
           plassering i konkurransen. Ikke alle måneder har en individuell konkurranse, men de fleste
           vil ha en. Her gjelder det å studere programmet nøye slik at du ikke går glipp av noen
           muligheter til å vinne poeng.
@@ -196,10 +181,14 @@ const closeOverlay = () => {
   margin-left: calc(50% - 50vw);
   margin-top: 96px;
   scroll-margin-top: 80px;
-  background-color: $black-color;
+  background-color: $ink-color;
+  @include woven-texture(rgba($gold-color, 0.05));
   position: relative;
-  color: $white-color;
+  color: $parchment-color;
   padding: 32px 0 64px 0;
+  // Gilt rules top and bottom turn the band into a framed panel.
+  border-top: 2px solid rgba($gold-color, 0.5);
+  border-bottom: 2px solid rgba($gold-color, 0.5);
 }
 
 .rules-content {
@@ -219,16 +208,19 @@ p {
 .button {
   @extend .title-xs;
   margin-top: 24px;
-  color: $white-color;
+  color: $gold-color-light;
   border: none;
   cursor: pointer;
   text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
   background: none;
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: color 0.2s ease;
   &:hover {
-    color: $red-color-100;
+    color: $parchment-color;
   }
 
   &.float-center {
@@ -242,11 +234,15 @@ p {
 
 h3 {
   margin-top: 32px;
+  color: $gold-color-light;
 }
 
 .rules-overlay {
-  background-color: $black-color;
-  color: $white-color;
+  background-color: $ink-color;
+  @include woven-texture(rgba($gold-color, 0.05));
+  color: $parchment-color;
+  border: 2px solid rgba($gold-color, 0.5);
+  border-radius: $radius-lg;
   padding: 32px;
   width: calc(100vw - 16px);
   height: calc(100vh - 32px);
@@ -267,6 +263,15 @@ h3 {
   gap: 32px;
   overflow: hidden;
   flex-shrink: 0;
+
+  h2 {
+    flex-shrink: 0;
+  }
+}
+
+// Gilded markers instead of the default discs.
+li::marker {
+  color: $gold-color;
 }
 
 .rules-overlay-content {
@@ -312,42 +317,17 @@ h3 {
   }
 }
 
-.stripes {
-  position: absolute;
+// The vine is drawn with its rose and C-scroll at the right end, so the
+// left-hand copy is used as-is and the right-hand copy is flipped. Both
+// ornate terminals then face inwards and frame the title.
+.scroll {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 386px;
+  height: auto;
 }
 
-.rules-overlay-title-left,
-.rules-overlay-title-right {
-  position: relative;
-  width: 100%;
-  height: fit-content;
-}
-
-.rules-overlay-title-left {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.stripes {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  position: absolute;
-  top: 0;
-}
-
-.left-stripes {
-  align-items: flex-start;
-}
-
-.right-stripes {
-  align-items: end;
-}
-
-.stripe {
-  width: calc(100% - 200px);
-  height: 12px;
-  background-color: $white-color;
+.scroll--right {
+  transform: scaleX(-1);
 }
 </style>

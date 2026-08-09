@@ -1,12 +1,19 @@
 <template>
+
   <div class="portal">
+
     <div id="portal-elements" class="portal-elements">
+
       <div id="toast-container" />
+
     </div>
+
   </div>
+
 </template>
 
 <script setup lang="ts">
+
 </script>
 
 <style scoped lang="scss">
@@ -26,3 +33,4 @@
   pointer-events: auto;
 }
 </style>
+

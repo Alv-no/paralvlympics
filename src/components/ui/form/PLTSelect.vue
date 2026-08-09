@@ -1,65 +1,69 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
+import { computed } from 'vue'
 
-  const {
-    label,
-    modelValue,
-    emptyOption = false,
-    options,
-    viewMode = 'column',
-    errorMsg = null,
-    disabled = false,
-    leftIcon,
-  } = defineProps<{
-    label?: string
-    modelValue?: string | null
-    emptyOption?: boolean
-    placeholder?: string
-    options: { name: string; id: string }[]
-    viewMode?: 'row' | 'column'
-    errorMsg?: string[] | null
-    disabled?: boolean
-    leftIcon?: string
-  }>()
-  const emit = defineEmits(['update:modelValue'])
+const {
+  label,
+  modelValue,
+  emptyOption = false,
+  options,
+  viewMode = 'column',
+  errorMsg = null,
+  disabled = false,
+  leftIcon,
+} = defineProps<{
+  label?: string
+  modelValue?: string | null
+  emptyOption?: boolean
+  placeholder?: string
+  options: { name: string; id: string }[]
+  viewMode?: 'row' | 'column'
+  errorMsg?: string[] | null
+  disabled?: boolean
+  leftIcon?: string
+}>()
+const emit = defineEmits(['update:modelValue'])
 
-  function handleChange(e: Event) {
-    const value = (e.target as HTMLSelectElement).value
-    emit('update:modelValue', value !== '' ? value : null)
-    }
+function handleChange(e: Event) {
+  const value = (e.target as HTMLSelectElement).value
+  emit('update:modelValue', value !== '' ? value : null)
+}
 
-  const paddingLeft = computed(() => (leftIcon ? '32px' : 'initial'))
-  const paddingRight = computed(() => ('32px'))
-  </script>
+const paddingLeft = computed(() => (leftIcon ? '32px' : 'initial'))
+const paddingRight = computed(() => '32px')
+</script>
 
-  <template>
-    <div class="input-field" :class="{ row: viewMode === 'row' }">
-      <label v-if="label">
-        {{ label }}
-      </label>
-      <div :class="['input-wrapper']">
-        <vue-feather v-if="leftIcon" id="left-icon" :type="leftIcon" />
-        <select
-          ref="inputElement"
-          :value="modelValue"
-          @change="handleChange"
-          :disabled="disabled"
-          :class="[!modelValue ? 'italic' : '']"
-        >
-          <option v-if="placeholder" value="" disabled selected>{{ placeholder }}</option>
-          <option v-if="emptyOption" :value="null"></option>
-          <option v-for="option in options" :key="option.id" :value="option.id">
-            {{ option.name }}
-          </option>
-        </select>
-        <vue-feather class="icon" type="chevron-down" />
-      </div>
-      <p v-for="error in errorMsg" :key="error" class="error-text">{{ error }}</p>
+<template>
+
+  <div class="input-field" :class="{ row: viewMode === 'row' }">
+     <label v-if="label"> {{ label }} </label>
+    <div :class="['input-wrapper']">
+       <vue-feather v-if="leftIcon" id="left-icon" :type="leftIcon" /> <select
+        ref="inputElement"
+        :value="modelValue"
+        @change="handleChange"
+        :disabled="disabled"
+        :class="[!modelValue ? 'italic' : '']"
+      >
+
+        <option v-if="placeholder" value="" disabled selected>{{ placeholder }}</option>
+
+        <option v-if="emptyOption" :value="null"></option>
+
+        <option v-for="option in options" :key="option.id" :value="option.id">
+           {{ option.name }}
+        </option>
+         </select
+      > <vue-feather class="icon" type="chevron-down" />
     </div>
-  </template>
 
-  <style lang="scss" scoped>
-  .input-field {
+    <p v-for="error in errorMsg" :key="error" class="error-text">{{ error }}</p>
+
+  </div>
+
+</template>
+
+<style lang="scss" scoped>
+.input-field {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -73,9 +77,10 @@
   select {
     @extend .body-sm;
     height: 40px;
-    border-radius: 2px;
-    border: 1px solid $black-color;
-    background-color: $white-color;
+    border-radius: $radius-sm;
+    border: 1px solid $ink-color;
+    background-color: $parchment-color;
+    color: $ink-color;
     appearance: none;
     text-indent: 4px;
     width: 100%;
@@ -86,7 +91,8 @@
       text-indent: 0px;
     }
     &:disabled {
-      background-color: lightgray;
+      background-color: $parchment-color-dark;
+      color: $stone-color;
     }
   }
 
@@ -124,7 +130,8 @@
 
   .error-text {
     @extend .body-sm;
-    color: $red-color-100;
+    color: $rust-color;
     margin: 0;
   }
-  </style>
+</style>
+

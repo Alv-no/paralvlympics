@@ -1,34 +1,50 @@
-$black-color: #212121;
-$white-color: #FFFFFF;
-$red-color-100:#F37272;
-$red-color-200:#D01D1D;
-$red-color-300:#D01F1F;
-$gray-color-100:#F7F7F7;
-$gray-color-200:#A5A5A5;
+// ── Nasjonalromantikk ────────────────────────────────────────────────────────
+// The palette is lifted straight from the hero painting: a fjord at dusk under
+// a rust-red sky, falurød timber cabins, gilded script and aged paper.
+//
+// NB: this file is injected into every <style lang="scss"> block by Vite
+// (see vite.config.ts), so it must stay declaration-free — tokens and mixins
+// only. Global element styling lives in the unscoped block in App.vue.
 
-* {
-  box-sizing: border-box;
+// Night sky and mountain silhouette
+$ink-color: #151b2b;
+$ink-color-soft: #232e44;
+
+// The fjord itself
+$fjord-color: #2e4569;
+$fjord-color-light: #4e6e96;
+
+// Falurød — the barn red of the cabins and the burning sky
+$rust-color: #a63a24;
+$rust-color-dark: #7e2a19;
+$rust-color-light: #c87a62;
+
+// Gilded lettering, brass, wheat
+$gold-color: #c08a3e;
+$gold-color-light: #dfb871;
+
+// Paper, birch bark, lichen on grey rock
+$parchment-color: #f6efe1;
+$parchment-color-dark: #eadfc9;
+$stone-color: #a2947c;
+
+// Corners are carved out of timber, not moulded out of plastic — keep them tight.
+$radius-sm: 2px;
+$radius-md: 3px;
+$radius-lg: 5px;
+
+// A framed panel: dark rule outside, gold hairline inside, like a painted
+// cabinet door or the border of a rosemaled chest.
+@mixin carved-frame($border: $ink-color, $inlay: $gold-color) {
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  box-shadow: inset 0 0 0 1px rgba($inlay, 0.35);
 }
 
-h1, h2, h3, h4, h5, h6, p {
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  scrollbar-gutter: stable;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-body {
-  color: $black-color;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  margin: 0;
-  width: 100%;
+// Woven wool, in place of the halftone dot screen. Two crossing sets of thin
+// diagonals read as bunad twill at any size.
+@mixin woven-texture($color: rgba(255, 255, 255, 0.12)) {
+  background-image:
+    repeating-linear-gradient(45deg, $color 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-45deg, $color 0 1px, transparent 1px 7px);
 }

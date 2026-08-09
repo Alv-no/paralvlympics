@@ -33,7 +33,7 @@ export const useContestantsStore = defineStore('contestants', () => {
     if (teamsStore.teams.length === 0) {
       await teamsStore.fetchTeams()
     }
-    const teamsMap = new Map(teamsStore.teams.map(team => [team.id, team]))
+    const teamsMap = new Map(teamsStore.teams.map((team) => [team.id, team]))
 
     const resultsStore = useResultsStore()
     if (resultsStore.contestantStats.size === 0) {
@@ -52,10 +52,10 @@ export const useContestantsStore = defineStore('contestants', () => {
       total_wins
     `)
 
-  if (error || !data) {
-    console.error('Error fetching contestants:', error)
-    return
-  }
+    if (error || !data) {
+      console.error('Error fetching contestants:', error)
+      return
+    }
 
     contestants.value = data
       .map((contestant: ContestantRow) => {
@@ -67,7 +67,9 @@ export const useContestantsStore = defineStore('contestants', () => {
 
         const team = teamsMap.get(contestant.team_id)
         if (!team) {
-          console.warn(`Team not found for contestant ${contestant.id} with team_id ${contestant.team_id}`)
+          console.warn(
+            `Team not found for contestant ${contestant.id} with team_id ${contestant.team_id}`,
+          )
         }
 
         return {

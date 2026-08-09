@@ -3,10 +3,13 @@ import heroImage from '@/assets/images/hero_image.png'
 </script>
 
 <template>
+
   <div class="push-content" />
+
   <div class="hero-wrapper">
-    <img :src="heroImage" alt="Illustrasjonsbilde, Paralvlympics" class="hero-image" />
+     <img :src="heroImage" alt="Illustrasjonsbilde, Paralvlympics" class="hero-image" />
   </div>
+
 </template>
 
 <style scoped lang="scss">
@@ -35,3 +38,4 @@ import heroImage from '@/assets/images/hero_image.png'
   display: block;
 }
 </style>
+

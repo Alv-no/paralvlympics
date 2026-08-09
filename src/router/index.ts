@@ -10,19 +10,19 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-    path: '/',
-    component: () => import('@/layout/BaseLayout.vue'),
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/BaseView.vue'),
-        name: baseRouteName,
-        meta: {
-          breadcrumb: () => [{ name: 'Paralympics', to: null }],
+      path: '/',
+      component: () => import('@/layout/BaseLayout.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/BaseView.vue'),
+          name: baseRouteName,
+          meta: {
+            breadcrumb: () => [{ name: 'Paralympics', to: null }],
+          },
         },
-      },
-    ]
-  }
+      ],
+    },
   ],
 })
 

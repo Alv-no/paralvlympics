@@ -1,58 +1,80 @@
 <script setup lang="ts">
-  import type { Competition } from '@/types/api-types'
-  import MarkdownIt from 'markdown-it'
-  import { computed } from 'vue'
+import type { Competition } from '@/types/api-types'
+import MarkdownIt from 'markdown-it'
+import { computed } from 'vue'
 
-  const md = new MarkdownIt()
+const md = new MarkdownIt()
 
-  const { competition } = defineProps<{
-    competition: Competition
-    index: number
-  }>()
+const { competition } = defineProps<{
+  competition: Competition
+  index: number
+}>()
 
-  const imageUrl = computed(() => {
-    return competition.imageUrl ? `url(${competition.imageUrl})` : 'none'
-  })
+const imageUrl = computed(() => {
+  return competition.imageUrl ? `url(${competition.imageUrl})` : 'none'
+})
 </script>
 
 <template>
-  <div :class="{ 'competition-card': true, 'is-next': competition.isNext, 'is-finished': competition.isFinished }">
-    <div :class="{ 'bg-gradient-overlay': true, 'is-next': competition.isNext , 'is-finished': competition.isFinished}" />
+
+  <div
+    :class="{
+      'competition-card': true,
+      'is-next': competition.isNext,
+      'is-finished': competition.isFinished,
+    }"
+  >
+
+    <div
+      :class="{
+        'bg-gradient-overlay': true,
+        'is-next': competition.isNext,
+        'is-finished': competition.isFinished,
+      }"
+    />
 
     <div class="competition-content">
 
+      <div class="competition-header">
 
-    <div class="competition-header">
-      <div>
-        <p class="title-xs">Runde {{ index + 1 }}</p>
-        <h2>{{ competition.name }}</h2>
+        <div>
+
+          <p class="title-xs">Runde {{ index + 1 }}</p>
+
+          <h2>{{ competition.name }}</h2>
+
+        </div>
+
+        <div class="next-competition" v-if="competition.isNext">
+           Neste konkurranse
+          <div class="dot" />
+
+        </div>
+
       </div>
 
-      <div class="next-competition" v-if="competition.isNext">
-        Neste konkurranse
-        <div class= "dot" />
-      </div>
+      <div class="description" v-html="md.render(competition.description || '')" />
+
+      <p class="date">{{ competition.date }}</p>
+
     </div>
 
-    <div class="description" v-html="md.render(competition.description || '')" />
-    <p class="date">{{ competition.date }}</p>
-  </div>
   </div>
 
 </template>
 
 <style scoped lang="scss">
-  .competition-card {
+.competition-card {
     position: relative;
     width: 500px;
     height: 230px;
-    border: 1px solid $black-color;
+    @include carved-frame;
+    background-color: $parchment-color-dark;
     padding: 20px;
-    border-radius: 20px;
 
     background-image: v-bind(imageUrl);
-    background-size: cover;
-    background-position: center;
+    background-size: calc(100% - 250px) auto;
+    background-position: calc(100% - 24px) center;
     background-repeat: no-repeat;
     // for some reason needed
     display: flex;
@@ -60,16 +82,16 @@
 
     &.is-next {
       height: 232px;
-      border: none;
-      background-color: $red-color-300;
-      color: $white-color;
+      background-color: $rust-color;
+      color: $parchment-color;
+      @include carved-frame($rust-color-dark, $gold-color-light);
     }
 
     &.is-finished {
       height: 232px;
-      border: none;
-      background-color: $black-color;
-      color: $white-color;
+      background-color: $ink-color;
+      color: $parchment-color;
+      @include carved-frame($ink-color, $gold-color);
     }
   }
 
@@ -79,21 +101,21 @@
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #FFF 35.79%, rgba(153, 153, 153, 0.00) 126.14%);
+    border-radius: $radius-lg;
+    background: linear-gradient(90deg, $parchment-color-dark 50%, rgba($parchment-color-dark, 0) 126.14%);
 
     &.is-next {
-      background: linear-gradient(90deg, #D01F1F 35.79%, rgba(106, 16, 16, 0.00) 127.24%);
+      background: linear-gradient(90deg, $rust-color 50%, rgba($rust-color-dark, 0) 127.24%);
     }
 
     &.is-finished {
-      background: linear-gradient(90deg, #212121 35.79%, rgba(106, 16, 16, 0.00) 127.24%);
+      background: linear-gradient(90deg, $ink-color 50%, rgba($ink-color, 0) 127.24%);
     }
 
   }
 
   .competition-content {
-    @extend .label-md;
+    @extend .body-md;
     display: flex;
     flex-direction: column;
     z-index: 2;
@@ -130,19 +152,21 @@
   }
 
   .next-competition {
+    @extend .label-xs;
     width: fit-content;
-    padding: 4px 12px;
+    padding: 5px 14px;
     position: relative;
-    border-radius: 8px;
-        background-color: $white-color;
-        color: $black-color;
+    border-radius: $radius-sm;
+    background-color: $parchment-color;
+    color: $ink-color;
+    box-shadow: inset 0 0 0 1px rgba($gold-color, 0.6);
   }
 
   .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: $red-color-300;
+    background-color: $rust-color;
     position: absolute;
     top: 4px;
     right: 4px;

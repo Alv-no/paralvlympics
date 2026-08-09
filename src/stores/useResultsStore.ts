@@ -96,16 +96,12 @@ export const useResultsStore = defineStore('results', () => {
 
   // Helper to get contestant results grouped by competition_id
   function getContestantResultsByCompetition(competitionId: number): ContestantResultRow[] {
-    return contestantResults.value.filter(
-      (result) => result.competition_id === competitionId
-    )
+    return contestantResults.value.filter((result) => result.competition_id === competitionId)
   }
 
   // Helper to get team results grouped by competition_id
   function getTeamResultsByCompetition(competitionId: number): TeamResultRow[] {
-    return teamResults.value.filter(
-      (result) => result.competition_id === competitionId
-    )
+    return teamResults.value.filter((result) => result.competition_id === competitionId)
   }
 
   return {

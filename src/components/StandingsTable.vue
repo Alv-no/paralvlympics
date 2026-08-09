@@ -35,48 +35,66 @@ const prevPage = () => {
 </script>
 
 <template>
+
   <div class="standings-table">
+
     <table>
+
       <thead>
+
         <tr>
+
           <th v-for="col in cols" :key="col">{{ col }}</th>
+
         </tr>
+
       </thead>
-      <Transition :name="isForward ? 'fade-slide' : 'fade-slide-reverse'" mode="out-in">
+       <Transition :name="isForward ? 'fade-slide' : 'fade-slide-reverse'" mode="out-in"
+        >
         <tbody :key="currentPage">
+
           <tr v-for="(row, rowIndex) in paginatedRows" :key="rowIndex">
+
             <td v-for="(col, colIndex) in cols" :key="colIndex">{{ row[colIndex] }}</td>
+
           </tr>
+
         </tbody>
-      </Transition>
+         </Transition
+      >
     </table>
 
     <div v-if="needsPagination" class="pagination">
-      <button
+       <button
         @click="prevPage"
         :disabled="currentPage === 1"
         class="pagination-button"
         aria-label="Previous page"
-      >←</button>
-      <span class="pagination-info">Side {{ currentPage }} av {{ totalPages }}</span>
-      <button
+      >
+        ←</button
+      > <span class="pagination-info">Side {{ currentPage }} av {{ totalPages }}</span
+      > <button
         @click="nextPage"
         :disabled="currentPage === totalPages"
         class="pagination-button"
         aria-label="Next page"
-      >→</button>
+      >
+        →</button
+      >
     </div>
+
   </div>
+
 </template>
 
 <style scoped lang="scss">
 .standings-table {
-  @extend .title-xs;
+  @extend .body-sm;
   margin-top: 24px;
   width: 100%;
   padding: 20px;
-  background-color: $gray-color-100;
-  border-radius: 12px;
+  background-color: $parchment-color-dark;
+  @include carved-frame($stone-color, $gold-color);
 }
 
 table {
@@ -86,15 +104,18 @@ table {
 }
 
 th {
-  @extend .label-md;
+  @extend .label-xs;
   text-align: start;
   padding: 12px 0;
-  border-bottom: 1px solid $black-color;
+  color: $ink-color;
+  border-bottom: 2px solid $ink-color;
 }
 
+// No first-column emphasis here: depending on the caller that cell is a rank,
+// a driver name or a team name.
 td {
   padding: 12px 0;
-  border-bottom: 1px solid $gray-color-200;
+  border-bottom: 1px solid rgba($stone-color, 0.6);
 }
 
 tbody {
@@ -162,18 +183,19 @@ tbody {
 
 .pagination-button {
   background-color: transparent;
-  border: 1px solid $gray-color-200;
-  border-radius: 8px;
+  border: 1px solid $stone-color;
+  border-radius: $radius-sm;
   padding: 8px 16px;
   cursor: pointer;
   font-size: 16px;
-  color: $black-color;
+  color: $ink-color;
   transition: all 0.2s ease;
   min-width: 40px;
 
   &:hover:not(:disabled) {
-    background-color: $gray-color-200;
-    border-color: $black-color;
+    background-color: $ink-color;
+    border-color: $ink-color;
+    color: $parchment-color;
   }
 
   &:disabled {
@@ -183,7 +205,7 @@ tbody {
 }
 
 .pagination-info {
-  @extend .label-md;
-  color: $black-color;
+  @extend .label-xs;
+  color: $ink-color;
 }
 </style>

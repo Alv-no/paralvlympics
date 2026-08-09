@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
@@ -66,12 +60,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "contestants_team_id_fkey"
-            columns: ["team_id"]
+            foreignKeyName: 'contestants_team_id_fkey'
+            columns: ['team_id']
             isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          }
+            referencedRelation: 'teams'
+            referencedColumns: ['id']
+          },
         ]
       }
       competitions: {
@@ -134,19 +128,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "contestant_results_competition_id_fkey"
-            columns: ["competition_id"]
+            foreignKeyName: 'contestant_results_competition_id_fkey'
+            columns: ['competition_id']
             isOneToOne: false
-            referencedRelation: "competitions"
-            referencedColumns: ["id"]
+            referencedRelation: 'competitions'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "contestant_results_contestant_id_fkey"
-            columns: ["contestant_id"]
+            foreignKeyName: 'contestant_results_contestant_id_fkey'
+            columns: ['contestant_id']
             isOneToOne: false
-            referencedRelation: "contestants"
-            referencedColumns: ["id"]
-          }
+            referencedRelation: 'contestants'
+            referencedColumns: ['id']
+          },
         ]
       }
       current_competition: {
@@ -176,19 +170,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "current_competition_competition_id_fkey"
-            columns: ["competition_id"]
+            foreignKeyName: 'current_competition_competition_id_fkey'
+            columns: ['competition_id']
             isOneToOne: false
-            referencedRelation: "competitions"
-            referencedColumns: ["id"]
+            referencedRelation: 'competitions'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "current_competition_contestant_id_fkey"
-            columns: ["contestant_id"]
+            foreignKeyName: 'current_competition_contestant_id_fkey'
+            columns: ['contestant_id']
             isOneToOne: false
-            referencedRelation: "contestants"
-            referencedColumns: ["id"]
-          }
+            referencedRelation: 'contestants'
+            referencedColumns: ['id']
+          },
         ]
       }
       team_results: {
@@ -218,19 +212,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "team_results_competition_id_fkey"
-            columns: ["competition_id"]
+            foreignKeyName: 'team_results_competition_id_fkey'
+            columns: ['competition_id']
             isOneToOne: false
-            referencedRelation: "competitions"
-            referencedColumns: ["id"]
+            referencedRelation: 'competitions'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "team_results_team_id_fkey"
-            columns: ["team_id"]
+            foreignKeyName: 'team_results_team_id_fkey'
+            columns: ['team_id']
             isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          }
+            referencedRelation: 'teams'
+            referencedColumns: ['id']
+          },
         ]
       }
       teams: {

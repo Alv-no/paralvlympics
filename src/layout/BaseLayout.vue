@@ -23,7 +23,6 @@ import BaseNavbar from '@/components/layout/BaseNavbar.vue'
 </template>
 
 <style scoped lang="scss">
-
 .content {
   max-width: 1164px;
   padding: 0 16px 96px 16px;

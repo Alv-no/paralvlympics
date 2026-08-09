@@ -43,16 +43,17 @@ onMounted(() => {
 </script>
 
 <template>
+
   <section id="contestants" class="driver-list-wrapper">
 
     <h2 class="title-lg">Førere</h2>
 
     <div class="tabs-container" v-if="teamNames.length > 1">
-      <PLTTabs :items="teamNames" v-model:selected-tab="selectedTeam" />
+       <PLTTabs :items="teamNames" v-model:selected-tab="selectedTeam" />
     </div>
 
     <div class="contestants-grid">
-      <ContestantCard
+       <ContestantCard
         v-for="contestant in filteredContestants"
         :key="contestant.id"
         :contestant="contestant"
@@ -60,6 +61,7 @@ onMounted(() => {
     </div>
 
   </section>
+
 </template>
 
 <style scoped lang="scss">

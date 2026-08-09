@@ -9,9 +9,15 @@ const { contestant } = defineProps<{
 
 function lightenColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16)
-  const r = Math.min(255, ((num >> 16) & 0xff) + Math.round((255 - ((num >> 16) & 0xff)) * percent / 100))
-  const g = Math.min(255, ((num >> 8) & 0xff) + Math.round((255 - ((num >> 8) & 0xff)) * percent / 100))
-  const b = Math.min(255, (num & 0xff) + Math.round((255 - (num & 0xff)) * percent / 100))
+  const r = Math.min(
+    255,
+    ((num >> 16) & 0xff) + Math.round(((255 - ((num >> 16) & 0xff)) * percent) / 100),
+  )
+  const g = Math.min(
+    255,
+    ((num >> 8) & 0xff) + Math.round(((255 - ((num >> 8) & 0xff)) * percent) / 100),
+  )
+  const b = Math.min(255, (num & 0xff) + Math.round(((255 - (num & 0xff)) * percent) / 100))
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
 }
 
@@ -25,65 +31,101 @@ const teamBackground = computed(() => teamBackgrounds[contestant.team.id] ?? nul
 </script>
 
 <template>
-  <div class="contestant-card" :style="{ background: backgroundGradient }">
 
-    <!-- Team background photo; falls back to the team-colour gradient when absent -->
+  <div class="contestant-card" :style="{ background: backgroundGradient }">
+     <!-- Team background photo; falls back to the team-colour gradient when absent -->
     <div v-if="teamBackground" class="card-background">
-      <img :src="teamBackground" alt="" aria-hidden="true" />
+       <img :src="teamBackground" alt="" aria-hidden="true" />
     </div>
 
     <div class="card-image">
-      <img :src="contestant.imageUrl" :alt="`${contestant.firstName} ${contestant.lastName}`" loading="lazy" />
+       <img
+        :src="contestant.imageUrl"
+        :alt="`${contestant.firstName} ${contestant.lastName}`"
+        loading="lazy"
+      />
     </div>
 
     <div class="card-content">
 
       <div class="contestant-header">
+
         <div class="contestant-name">
+
           <h3 class="title-md">{{ contestant.firstName }} {{ contestant.lastName }}</h3>
+
           <p class="body-sm team-name" :style="{ color: contestant.team.color }">
-            {{ contestant.team.name }}
+             {{ contestant.team.name }}
           </p>
+
         </div>
+
       </div>
 
       <div class="contestant-stats">
+
         <div class="stat-item">
+
           <p class="label-xs">Poeng</p>
+
           <p class="title-sm">{{ contestant.totalPoints }}</p>
+
         </div>
+
         <div class="stat-item">
+
           <p class="label-xs">Pallplasser</p>
+
           <p class="title-sm">{{ contestant.totalPodiums }}</p>
+
         </div>
+
         <div class="stat-item">
+
           <p class="label-xs">Seiere</p>
+
           <p class="title-sm">{{ contestant.totalFirstPlaces }}</p>
+
         </div>
+
         <div class="stat-item">
+
           <p class="label-xs">Karriereseiere</p>
+
           <p class="title-sm">{{ contestant.careerWins }}</p>
+
         </div>
+
         <div class="stat-item">
+
           <p class="label-xs">Paralympics-deltagelser</p>
+
           <p class="title-sm">{{ contestant.paralympicsParticipations }}</p>
+
         </div>
+
         <div class="stat-item">
+
           <p class="label-xs">Seiere totalt</p>
+
           <p class="title-sm">{{ contestant.totalWins }}</p>
+
         </div>
+
       </div>
 
     </div>
+
   </div>
+
 </template>
 
 <style scoped lang="scss">
 @use '@/assets/styles/_breakpoints.scss' as *;
 
 .contestant-card {
-  border: 1px solid $black-color;
-  border-radius: 20px;
+  border: 1px solid $ink-color;
+  border-radius: $radius-lg;
   position: relative;
   overflow: hidden;
   height: 250px;
@@ -91,7 +133,7 @@ const teamBackground = computed(() => teamBackgrounds[contestant.team.id] ?? nul
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 18px rgba($ink-color, 0.28);
   }
 }
 
@@ -144,7 +186,9 @@ const teamBackground = computed(() => teamBackgrounds[contestant.team.id] ?? nul
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: $white-color;
+  background-color: $parchment-color;
+  // Gilt inlay so the flipped side reads as the inside of a painted lid.
+  box-shadow: inset 0 0 0 1px rgba($gold-color, 0.45);
   opacity: 0;
   transition: opacity 0.3s ease;
   overflow-y: auto;
@@ -187,5 +231,4 @@ const teamBackground = computed(() => teamBackgrounds[contestant.team.id] ?? nul
   flex-direction: column;
   gap: 4px;
 }
-
 </style>

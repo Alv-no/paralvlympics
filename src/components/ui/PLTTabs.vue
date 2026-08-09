@@ -14,24 +14,36 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
 </script>
 
 <template>
-  <div class="tab-wrapper">
-    <div class="tab-items">
-      <div
-        v-for="item in items"
-        :class="['tab-item', { 'selected-tab-item': selectedTab === item.label }]"
-        :key="item.label"
-        @click="() => (selectedTab = item.label)"
-      >
-        <img v-if="item.logo" :src="item.logo" :alt="item.label" class="tab-logo" />
-        {{ item.label }}
+   <!-- Single root node on purpose. The desktop tab bar and the mobile select are
+       siblings, and as a fragment root Vue has nowhere to put a class passed in
+       from a parent (Standings sends .sub-tabs) — it drops it and warns. -->
+  <div class="tabs">
+
+    <div class="tab-wrapper">
+
+      <div class="tab-items">
+
+        <div
+          v-for="item in items"
+          :class="['tab-item', { 'selected-tab-item': selectedTab === item.label }]"
+          :key="item.label"
+          @click="() => (selectedTab = item.label)"
+        >
+           <img v-if="item.logo" :src="item.logo" :alt="item.label" class="tab-logo" /> {{
+            item.label
+          }}
+        </div>
+
       </div>
+
     </div>
+     <PLTSelect
+      class="tab-bar-select"
+      v-model="selectedTab"
+      :options="items.map((i) => ({ id: i.label, name: i.label }))"
+    />
   </div>
-  <PLTSelect
-    class="tab-bar-select"
-    v-model="selectedTab"
-    :options="items.map((i) => ({ id: i.label, name: i.label }))"
-  />
+
 </template>
 
 <style lang="scss" scoped>
@@ -56,9 +68,16 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
   text-align: center;
   cursor: pointer;
   padding: 0 12px 11px 12px;
+  color: rgba($ink-color, 0.65);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $ink-color;
+  }
 
   &.selected-tab-item {
-    border-bottom: 3px solid $red-color-300;
+    color: $rust-color-dark;
+    border-bottom: 3px solid $rust-color;
   }
 }
 
@@ -75,3 +94,4 @@ const selectedTab = defineModel<string | null>('selected-tab', { required: true 
   }
 }
 </style>
+

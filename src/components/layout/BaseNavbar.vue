@@ -52,20 +52,22 @@ onUnmounted(() => {
 <template>
 
   <nav :class="{ visible: isVisible }">
+
     <div class="nav-container">
 
-    <div class="link-container">
-       <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a> <a
-        href="#standings"
-        :class="{ active: activeSection === 'standings' }"
-        >Resultattavle</a
-      > <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a> <a
-        href="#contestants"
-        :class="{ active: activeSection === 'contestants' }"
-        >Førere</a
-      >
+      <div class="link-container">
+         <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a> <a
+          href="#standings"
+          :class="{ active: activeSection === 'standings' }"
+          >Resultattavle</a
+        > <a href="#rules" :class="{ active: activeSection === 'rules' }">Regler</a> <a
+          href="#contestants"
+          :class="{ active: activeSection === 'contestants' }"
+          >Førere</a
+        >
+      </div>
+
     </div>
-  </div>
 
   </nav>
 
@@ -88,12 +90,14 @@ onUnmounted(() => {
 }
 
 nav {
-  background-color: $black-color;
-  color: $white-color;
+  background-color: $ink-color;
+  color: $parchment-color;
   position: fixed;
   z-index: 10;
   width: 100%;
   top: 0;
+  // Gilt rule along the bottom edge, like the beading on a painted cupboard.
+  border-bottom: 1px solid rgba($gold-color, 0.45);
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
 
@@ -117,22 +121,24 @@ nav {
 }
 
 nav a {
-  color: $white-color;
+  color: $parchment-color;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: $radius-sm;
   position: relative;
+  transition: color 0.2s ease;
   &:hover {
-    color: $red-color-100;
+    color: $gold-color-light;
   }
   &.active {
+    color: $gold-color-light;
     &::after {
       content: '';
       position: absolute;
-      bottom: -4px;
+      bottom: -6px;
       left: 0;
       right: 0;
       height: 2px;
-      background-color: $white-color;
+      background-color: $gold-color;
     }
   }
 }

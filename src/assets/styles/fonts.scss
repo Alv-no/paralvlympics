@@ -1,39 +1,23 @@
 @use '@/assets/styles/_breakpoints.scss' as *;
 
-@font-face {
-  font-family: 'Formula1';
-  src: url('/fonts/formula1-regular-1.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Formula1';
-  src: url('/fonts/formula1-bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Formula1';
-  src: url('/fonts/formula1-black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
+// Fraunces for display and EB Garamond for text — an old-style pairing that
+// reads like a 19th century Norwegian book plate. Both are loaded from Google
+// Fonts in index.html; see the SOFT/WONK axes below for the woodcut wobble.
 
 @mixin title-base {
-  font-family: 'Formula1';
-
+  font-family: 'Fraunces', 'EB Garamond', Georgia, serif;
+  // SOFT rounds the terminals like ink spread on rag paper; WONK swaps in the
+  // splayed, slightly crooked alternates that give the face its carved look.
+  font-variation-settings:
+    'SOFT' 40,
+    'WONK' 1;
   line-height: 1.15;
-  letter-spacing: -0.022em;
+  letter-spacing: 0.004em;
 }
 
 .title-xl {
   @include title-base;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 2.5rem;
   @include sm {
     font-size: 3rem;
@@ -42,7 +26,7 @@
 
 .title-lg {
   @include title-base;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.75rem;
   @include sm {
     font-size: 2rem;
@@ -61,56 +45,64 @@
 .title-sm {
   @include title-base;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   @include sm {
-    font-size: 1rem;
+    font-size: 1.0625rem;
   }
 }
 
 .title-xs {
   @include title-base;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
   @include sm {
-    font-size: 0.887rem;
+    font-size: 0.9375rem;
   }
 }
 
-.label-md {
-  font-family: 'Poppins';
+// Labels are the engraved small caps of the palette: wide-tracked and upright.
+@mixin label-base {
+  font-family: 'EB Garamond', Georgia, serif;
   font-weight: 600;
-  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.label-md {
+  @include label-base;
+  font-size: 1.0625rem;
 }
 
 .label-sm {
-  font-family: 'Poppins';
-  font-weight: 600;
-  font-size: 0.888rem;
+  @include label-base;
+  font-size: 0.9375rem;
 }
 
 .label-xs {
-  font-family: 'Poppins';
-  font-weight: 600;
-  font-size: 0.777rem;
+  @include label-base;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 .body-md {
-  font-family: 'Poppins';
+  font-family: 'EB Garamond', Georgia, serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.0625rem;
 }
 
 .body-sm {
-  font-family: 'Poppins';
+  font-family: 'EB Garamond', Georgia, serif;
   font-weight: 400;
-  font-size: 0.888rem;
+  font-size: 0.9375rem;
 }
 
 .body-xs {
-  font-family: 'Poppins';
+  font-family: 'EB Garamond', Georgia, serif;
   font-weight: 400;
-  font-size: 0.777rem;
+  font-size: 0.8125rem;
 }
+
 // default styles for heading elements
 h1 {
   @extend .title-lg;
@@ -131,4 +123,3 @@ h4 {
 .italic {
   font-style: italic;
 }
-
