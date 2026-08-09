@@ -15,14 +15,8 @@ interface ContestantRow {
   seasons_competed: number
   image_url: string
   team_id: number
-  role: string | null
   paralympics_participations: number | null
   total_wins: number | null
-  rating_selvtillit: number | null
-  rating_logisk_tenkning: number | null
-  rating_reaksjonsevne: number | null
-  rating_samarbeidsevne: number | null
-  rating_kommunikasjon: number | null
 }
 
 export const useContestantsStore = defineStore('contestants', () => {
@@ -46,7 +40,6 @@ export const useContestantsStore = defineStore('contestants', () => {
       await resultsStore.fetchResults()
     }
 
-    // added ratings
     const { data, error } = await supabase.from('contestants').select(`
       id,
       first_name,
@@ -55,15 +48,9 @@ export const useContestantsStore = defineStore('contestants', () => {
       seasons_competed,
       image_url,
       team_id,
-      role,
       paralympics_participations,
-      total_wins,
-      rating_selvtillit,
-      rating_logisk_tenkning,
-      rating_reaksjonsevne,
-      rating_samarbeidsevne,
-      rating_kommunikasjon
-    `) 
+      total_wins
+    `)
 
   if (error || !data) {
     console.error('Error fetching contestants:', error)
@@ -100,14 +87,8 @@ export const useContestantsStore = defineStore('contestants', () => {
           totalPoints: stats.totalPoints,
           totalPodiums: stats.totalPodiums,
           totalFirstPlaces: stats.totalFirstPlaces,
-          role: contestant.role ?? '',
           paralympicsParticipations: contestant.paralympics_participations ?? 0,
           totalWins: contestant.total_wins ?? 0,
-          ratingSelvtillit: contestant.rating_selvtillit ?? 0,
-          ratingLogiskTenkning: contestant.rating_logisk_tenkning ?? 0,
-          ratingReaksjonsevne: contestant.rating_reaksjonsevne ?? 0,
-          ratingSamarbeidsevne: contestant.rating_samarbeidsevne ?? 0,
-          ratingKommunikasjon: contestant.rating_kommunikasjon ?? 0,
         }
       })
       .sort((a, b) => b.totalPoints - a.totalPoints)

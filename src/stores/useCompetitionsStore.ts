@@ -77,14 +77,8 @@ export const useCompetitionsStore = defineStore('competitions', () => {
               totalPoints: contestant.totalPoints,
               totalPodiums: contestant.totalPodiums,
               totalFirstPlaces: contestant.totalFirstPlaces,
-              role: contestant.role,
               paralympicsParticipations: contestant.paralympicsParticipations,
               totalWins: contestant.totalWins,
-              ratingSelvtillit: contestant.ratingSelvtillit,
-              ratingLogiskTenkning: contestant.ratingLogiskTenkning,
-              ratingReaksjonsevne: contestant.ratingReaksjonsevne,
-              ratingSamarbeidsevne: contestant.ratingSamarbeidsevne,
-              ratingKommunikasjon: contestant.ratingKommunikasjon,
             },
           }
         }).filter((result): result is NonNullable<typeof result> => result !== null)

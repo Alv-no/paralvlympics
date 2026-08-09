@@ -156,37 +156,28 @@ const closeOverlay = () => {
 
           <div class="contact-item">
              <img
-              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Julie.png"
-              alt="Vikki Lauda"
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Andreas.png"
+              alt="Andreas"
             />
-            <p>Vikki Lauda</p>
+            <p>Andreas</p>
 
           </div>
 
           <div class="contact-item">
              <img
-              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Jakob.png"
-              alt="Jakob Villeneuve"
+              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Olav.png"
+              alt="Olav"
             />
-            <p>Jakob Villeneuve</p>
-
-          </div>
-
-          <div class="contact-item">
-             <img
-              src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/John.png"
-              alt="John Manuel Fangio"
-            />
-            <p>John Manuel Fangio</p>
+            <p>Olav</p>
 
           </div>
 
           <div class="contact-item">
              <img
               src="https://jltydtjcwbpnbkixfekb.supabase.co/storage/v1/object/public/paralvlympics/images/contestants/Stian.png"
-              alt="Stian Vettel"
+              alt="Stian"
             />
-            <p>Stian Vettel</p>
+            <p>Stian</p>
 
           </div>
 
@@ -360,4 +351,3 @@ h3 {
   background-color: $white-color;
 }
 </style>
-

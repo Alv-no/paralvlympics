@@ -4,13 +4,8 @@ import type { TabItem } from './ui/PLTTabs.vue'
 import ContestantCard from './ContestantCard.vue'
 import { useContestantsStore } from '@/stores/useContestantsStore'
 import { useTeamsStore } from '@/stores/useTeamsStore'
-import { teamLogos } from '@/assets/teamLogos'
 import { computed, ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-
-const selectedTeamData = computed(() =>
-  teams.value.find((t) => t.name === selectedTeam.value) ?? null
-)
 
 const selectedTeam = ref<string | null>(null)
 
@@ -21,9 +16,13 @@ const teamsStore = useTeamsStore()
 const { teams } = storeToRefs(teamsStore)
 
 const teamNames = computed<TabItem[]>(() => {
-  const teamItems = teams.value.map((team) => ({
-    label: team.name,
-  }))
+  // Copy before sorting so we don't mutate the store's array. Teams come back
+  // from Supabase unordered, so sort by id to keep the tabs as Lag 1 -> Lag 6.
+  const teamItems = [...teams.value]
+    .sort((a, b) => a.id - b.id)
+    .map((team) => ({
+      label: team.name,
+    }))
   return [{ label: 'Alle' }, ...teamItems]
 })
 
@@ -52,21 +51,6 @@ onMounted(() => {
       <PLTTabs :items="teamNames" v-model:selected-tab="selectedTeam" />
     </div>
 
-    <Transition name="banner">
-      <div
-        v-if="selectedTeamData"
-        class="team-banner"
-        :style="{ backgroundColor: selectedTeamData.color }"
-      >
-        <img
-          v-if="teamLogos[selectedTeamData.name]"
-          :src="teamLogos[selectedTeamData.name]"
-          :alt="selectedTeamData.name"
-          class="team-banner-logo"
-        />
-      </div>
-    </Transition>
-
     <div class="contestants-grid">
       <ContestantCard
         v-for="contestant in filteredContestants"
@@ -88,32 +72,6 @@ onMounted(() => {
 
 .tabs-container {
   margin-top: 32px;
-}
-
-.team-banner {
-  margin-top: 24px;
-  border-radius: 16px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.team-banner-logo {
-  height: 110px;
-  width: auto;
-  object-fit: contain;
-}
-
-.banner-enter-active,
-.banner-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.banner-enter-from,
-.banner-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
 }
 
 .contestants-grid {

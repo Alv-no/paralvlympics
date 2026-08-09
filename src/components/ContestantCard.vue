@@ -1,17 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Contestant } from '@/types/api-types'
-import dotMeshPng from '@/assets/images/contestant-card-dot-mesh.png'
-import { teamLogos } from '@/assets/teamLogos'
-import { Gauge, Wrench, Cpu, Dumbbell, Crown } from 'lucide-vue-next'
-
-const roleConfig: Record<string, { icon: typeof Gauge; label: string }> = {
-  'driver':          { icon: Gauge,    label: 'Driver' },
-  'mechanic':        { icon: Wrench,   label: 'Mechanic' },
-  'race engineer':   { icon: Cpu,      label: 'Race Engineer' },
-  'pit muscle':      { icon: Dumbbell, label: 'Pit Muscle' },
-  'team principal':  { icon: Crown,    label: 'Team Principal' },
-}
+import { teamBackgrounds } from '@/assets/teamBackgrounds'
 
 const { contestant } = defineProps<{
   contestant: Contestant
@@ -31,33 +21,19 @@ const backgroundGradient = computed(() => {
   return `linear-gradient(to right, ${baseColor}, ${lighterColor})`
 })
 
-const ratings = computed(() => [
-  { label: 'Selvtillit',       value: contestant.ratingSelvtillit },
-  { label: 'Logisk tenkning',  value: contestant.ratingLogiskTenkning },
-  { label: 'Reaksjonsevne',    value: contestant.ratingReaksjonsevne },
-  { label: 'Samarbeidsevne',   value: contestant.ratingSamarbeidsevne },
-  { label: 'Kommunikasjon',    value: contestant.ratingKommunikasjon },
-])
-
-const role = computed(() => roleConfig[contestant.role?.toLowerCase()] ?? null)
-
-const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
+const teamBackground = computed(() => teamBackgrounds[contestant.team.id] ?? null)
 </script>
 
 <template>
   <div class="contestant-card" :style="{ background: backgroundGradient }">
 
-    <div class="card-dot-mesh">
-      <img :src="dotMeshPng" alt="" aria-hidden="true" />
+    <!-- Team background photo; falls back to the team-colour gradient when absent -->
+    <div v-if="teamBackground" class="card-background">
+      <img :src="teamBackground" alt="" aria-hidden="true" />
     </div>
 
     <div class="card-image">
       <img :src="contestant.imageUrl" :alt="`${contestant.firstName} ${contestant.lastName}`" loading="lazy" />
-    </div>
-
-    <!-- Team logo badge (visible on default/non-hover state) -->
-    <div v-if="teamLogo" class="team-logo-badge">
-      <img :src="teamLogo" :alt="contestant.team.name" />
     </div>
 
     <div class="card-content">
@@ -69,8 +45,6 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
             {{ contestant.team.name }}
           </p>
         </div>
-        <!-- Logo also shown in content panel when hovered -->
-        <img v-if="teamLogo" class="team-logo-content" :src="teamLogo" :alt="contestant.team.name" />
       </div>
 
       <div class="contestant-stats">
@@ -100,26 +74,6 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
         </div>
       </div>
 
-      <div v-if="role" class="role-badge" :style="{ backgroundColor: contestant.team.color }">
-        <component :is="role.icon" :size="14" color="white" />
-        <span>{{ role.label }}</span>
-      </div>
-
-      <div class="contestant-ratings">
-        <div v-for="r in ratings" :key="r.label" class="rating-item">
-          <p class="label-xs">{{ r.label }}</p>
-          <div class="rating-pips">
-            <span
-              v-for="n in 5"
-              :key="n"
-              class="pip"
-              :class="{ filled: n <= r.value }"
-              :style="{ backgroundColor: n <= r.value ? contestant.team.color : undefined }"
-            />
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -138,22 +92,17 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    height: 440px;
   }
 }
 
-.card-dot-mesh {
+.card-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
-  opacity: 1;
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   img {
     width: 100%;
@@ -179,32 +128,9 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: top;
   }
-}
-
-// Badge visible on the card image (non-hovered)
-.team-logo-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.3s ease;
-
-  img {
-    width: 96px;
-    height: 96px;
-    object-fit: contain;
-  }
-}
-
-// Hide badge when hovered (content panel takes over)
-.contestant-card:hover .team-logo-badge {
-  opacity: 0;
 }
 
 .card-content {
@@ -214,7 +140,7 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
   width: 100%;
   height: 100%;
   z-index: 3;
-  padding: 16px 20px 44px;
+  padding: 16px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -246,35 +172,8 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
   gap: 4px;
 }
 
-// Logo shown inside content panel header
-.team-logo-content {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
 .team-name {
   font-weight: 600;
-}
-
-.role-badge {
-  position: absolute;
-  bottom: 8px;
-  left: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  width: fit-content;
-
-  span {
-    font-size: 12px;
-    font-weight: 600;
-    color: white;
-    text-transform: capitalize;
-  }
 }
 
 .contestant-stats {
@@ -289,41 +188,4 @@ const teamLogo = computed(() => teamLogos[contestant.team.name] ?? null)
   gap: 4px;
 }
 
-.contestant-ratings {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 12px;
-  margin-bottom: 0;
-}
-
-.rating-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-
-  .label-xs {
-    flex: 1;
-  }
-}
-
-.rating-pips {
-  display: flex;
-  gap: 4px;
-}
-
-.pip {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
-  opacity: 0.3;
-
-  &.filled {
-    opacity: 1;
-    border-color: transparent;
-  }
-}
 </style>

@@ -17,17 +17,12 @@ export interface Contestant {
   careerWins: number
   seasonsCompeted: number
   team: {
+    id: number
     name: string
     color: string
   }
-  role: string
   paralympicsParticipations: number
   totalWins: number
-  ratingSelvtillit: number
-  ratingLogiskTenkning: number
-  ratingReaksjonsevne: number
-  ratingSamarbeidsevne: number
-  ratingKommunikasjon: number
 }
 
 export interface Competition {

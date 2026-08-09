@@ -1,79 +1,37 @@
 <script setup lang="ts">
-import logo from '@/assets/images/logo-small.svg'
+import heroImage from '@/assets/images/hero_image.png'
 </script>
 
 <template>
   <div class="push-content" />
   <div class="hero-wrapper">
-    <div class="hero-mesh" />
-    <div class="hero-title">
-      <img :src="logo" alt="Logo" class="logo" />
-
-    <h1>Paralvlympics</h1>
-  </div>
-
+    <img :src="heroImage" alt="Illustrasjonsbilde, Paralvlympics" class="hero-image" />
   </div>
 </template>
 
 <style scoped lang="scss">
-  .push-content {
+.push-content,
+.hero-wrapper {
+  // The image is a 2:1 banner, so keep the crop gentle on narrow screens.
+  height: 65vw;
+  @include md {
     height: 80vh;
   }
-
+}
 
 .hero-wrapper {
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(90deg, #D01F1F 0%, #F37373 74.52%);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 80vh;
   width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.hero-mesh {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('@/assets/images/dot-mesh.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-.hero-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: $white-color;
-  z-index: 2;
-  @include md {
-    flex-direction: row;
-  }
-
-
-  > h1 {
-    font-size: 32px;
-    @include md {
-      font-size: 64px;
-    }
-
-  }
-}
-
-.logo {
-  height: 72px;
-  width: auto;
-  @include md {
-    height: 64px;
-  }
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 </style>

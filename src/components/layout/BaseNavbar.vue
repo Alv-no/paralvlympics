@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import logo from '@/assets/images/logo-small.svg'
 
 const isVisible = ref(false)
 const activeSection = ref<string>('')
@@ -55,8 +54,6 @@ onUnmounted(() => {
   <nav :class="{ visible: isVisible }">
     <div class="nav-container">
 
-
-     <img :src="logo" alt="Logo" class="logo" />
     <div class="link-container">
        <a href="#schedule" :class="{ active: activeSection === 'schedule' }">Program</a> <a
         href="#standings"
@@ -88,14 +85,6 @@ onUnmounted(() => {
     padding: 0 64px;
 
   }
-}
-
-img {
-  height: 20px;
-  width: auto;
-  position: relative;
-  left: 20px;
-
 }
 
 nav {
